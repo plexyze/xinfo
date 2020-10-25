@@ -1,4 +1,6 @@
 package com.plexyze.xinfo.viewmodel
 
-class LoginViewModel {
+import androidx.lifecycle.ViewModel
+
+class LoginViewModel: ViewModel() {
 }

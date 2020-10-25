@@ -1,15 +1,20 @@
 package com.plexyze.xinfo.model
 
 import android.content.Context
-import io.reactivex.Single
+import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
+
 @Serializable
 data class PassRowEntity(
+    var name: String = "",
     var login: String = "",
     var mail: String = "",
     var password: String = ""
@@ -21,29 +26,22 @@ data class PasswordsEntity(
     var passlist: List<PassRowEntity> = listOf()
 )
 
+suspend fun File.writePasswordsEntity(passwordsEntity: PasswordsEntity)=
+    GlobalScope.launch(Dispatchers.IO) {
+        val jsonString = Json.encodeToString(passwordsEntity)
+        writeText(jsonString)
 
-class Passwords(val context: Context){
+}.join()
 
-    fun load(): Single<PasswordsEntity> {
-        return Single.create{ emitter ->
-            val file = File(context.filesDir, "xinfo.data")
-            if(!file.exists()){
-                emitter.onSuccess(PasswordsEntity())
-            }else{
-                val jsonT = file.readText() // Read file
-                emitter.onSuccess(Json.decodeFromString<PasswordsEntity>(jsonT))
-            }
+
+
+suspend fun File.readPasswordsEntity():PasswordsEntity{
+    var out = PasswordsEntity()
+    GlobalScope.launch(Dispatchers.IO) {
+        if (exists()) {
+            val jsonT = readText() // Read file
+            out = Json.decodeFromString(jsonT)
         }
-    }
-
-    fun save(passwordsEntity: PasswordsEntity):Single<Boolean>{
-        return Single.create{ emitter ->
-            val jsonT = Json.encodeToString(passwordsEntity)
-            val f = context.openFileOutput("xinfo.data", Context.MODE_PRIVATE)
-            f.write(jsonT.toByteArray())
-            emitter.onSuccess(true)
-        }
-
-    }
-
+    }.join()
+    return out
 }
