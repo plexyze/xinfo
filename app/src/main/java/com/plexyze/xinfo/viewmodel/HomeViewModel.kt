@@ -1,7 +1,9 @@
 package com.plexyze.xinfo.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.plexyze.xinfo.encryption.*
 import com.plexyze.xinfo.model.PassRowEntity
 import com.plexyze.xinfo.model.PasswordsEntity
 import com.plexyze.xinfo.model.readPasswordsEntity
@@ -26,8 +28,8 @@ class HomeViewModel(val context:Context):ViewModel() {
     }
 
     fun load(){
-        val file = File(context.filesDir.absolutePath, "xinfo.data")
         uiScope.launch {
+            val file = File(context.filesDir.absolutePath, "xinfo.data")
             adapter.data = file.readPasswordsEntity().passlist
         }
     }
@@ -38,7 +40,12 @@ class HomeViewModel(val context:Context):ViewModel() {
             PassRowEntity(name= "mails", login = "flusa", password = "pass234"),
             PassRowEntity(name= "telegramm", login = "2flusa", password = "2pass234"),
             PassRowEntity(name= "watsup", login = "loggin", password = "654321"),
+            PassRowEntity(name= "mails", login = "denis", password = "pass1", mail="non"),
+            PassRowEntity(name= "mails", login = "flusa", password = "pass234"),
+            PassRowEntity(name= "telegramm", login = "2flusa", password = "2pass234"),
+            PassRowEntity(name= "watsup", login = "loggin", password = "654321"),
             PassRowEntity(name= "mails", login = "ioi888", password = "654321")
+
         )
         val pass = PasswordsEntity(passlist = rows)
         val file = File(context.filesDir.absolutePath, "xinfo.data")
