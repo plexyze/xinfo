@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">x-info</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start">Start</string>
+    <string name="name">Имя</string>
+    <string name="new_file">Новый файл</string>
+    <string name="password">Пароль</string>
+    <string name="email">Электронная почта</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Изменить</string>
+    <string name="login">Логин</string>
+    <string name="open">Открыть</string>
+    <string name="error">Ошибка</string>
+</resources>
