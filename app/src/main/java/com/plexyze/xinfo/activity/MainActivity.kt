@@ -1,4 +1,4 @@
-package com.plexyze.xinfo.ui
+package com.plexyze.xinfo.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

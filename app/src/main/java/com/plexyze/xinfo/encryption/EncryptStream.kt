@@ -30,10 +30,11 @@ class EncryptStream( private val key: ByteArray, private val ciphertext:(Byte)->
             return
         }
         val addSize = text.size
-        while( text.size < 255){
+        text.add(addSize.toByte())
+        text.swap(0,addSize)
+        while( text.size < 256){
             text.add(Random.nextInt().toByte())
         }
-        text.add(addSize.toByte())
         text.mxorEncrypt(key)
         text.forEach(ciphertext)
         text.clear()

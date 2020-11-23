@@ -3,16 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/cardListFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.plexyze.xinfo.ui.HomeFragment"
+        android:id="@+id/cardListFragment"
+        android:name="com.plexyze.xinfo.cardlist.CardListFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_card_list">
+        <action
+            android:id="@+id/action_homeFragment_to_cardInfoFragment"
+            app:destination="@id/cardInfoFragment" />
+        <action
+            android:id="@+id/action_cardListFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardInfoFragment"
+        android:name="com.plexyze.xinfo.cardinfo.CardInfoFragment"
+        android:label="fragment_card_info"
+        tools:layout="@layout/fragment_card_info">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.plexyze.xinfo.ui.LoginFragment"
+        android:name="com.plexyze.xinfo.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_cardListFragment"
+            app:destination="@id/cardListFragment"
+            app:popUpTo="@id/nav"
+            app:popUpToInclusive="true" />
+    </fragment>
+
 </navigation>
