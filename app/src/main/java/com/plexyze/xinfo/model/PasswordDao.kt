@@ -27,7 +27,7 @@ class PasswordDao(private val context:Context){
                 isError("No file")
                 return
             }
-            val passEntity = checkFile.readPasswords()
+            val passEntity = checkFile.readPasswords(password)
             if(passEntity.password != password){
                 isError("error password")
                 return

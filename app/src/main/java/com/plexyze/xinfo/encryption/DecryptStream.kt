@@ -36,7 +36,8 @@ class DecryptStream (private val key: ByteArray, private val isError:()->Unit={}
             return
         }
         ciphertext.mxorDecrypt(key)
-        val size = ciphertext[255].toInt() and 0xFF
+        val size = ciphertext[0].toInt() and 0xFF
+        ciphertext.swap(0,size)
         for (byte in 0 until size){
             outByte(ciphertext[byte])
         }

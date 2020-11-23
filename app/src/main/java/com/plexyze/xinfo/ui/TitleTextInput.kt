@@ -1,13 +1,13 @@
 package com.plexyze.xinfo.ui
 
-import android.annotation.TargetApi
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.os.Build
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -23,8 +23,13 @@ class TitleTextInput : ConstraintLayout {
 
     private var isError = false
     private lateinit var titleView: TextView
+    private lateinit var show: TextView
     private lateinit var editText: EditText
     private lateinit var btnCopy: Button
+
+    var inputType
+        get() = editText.inputType
+        set(v){ editText.inputType = v}
 
     var title:String
         get() = titleView.text.toString()
@@ -32,20 +37,24 @@ class TitleTextInput : ConstraintLayout {
 
     var text:String
         get() = editText.text.toString()
-        set(v){ editText.setText(v)}
+        set(v){
+            editText.setText(v)
+            show.setText(v)
+        }
 
     var isEnabled:Boolean?
-        get() = editText.isEnabled
+        get() = editText.isFocusable
         set(v){
             if(v?:false){
                 editText.isEnabled = true
-                btnCopy.setOnClickListener(){}
                 btnCopy.visibility = View.INVISIBLE
+                show.visibility = View.INVISIBLE
             }else{
                 editText.isEnabled = false
                 btnCopy.visibility = View.VISIBLE
                 btnCopy.setOnClickListener(){
                     copyText(editText.text.toString())
+                    showHidePassword()
                 }
             }}
 
@@ -74,6 +83,7 @@ class TitleTextInput : ConstraintLayout {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.title_text_input, this)
         titleView = findViewById(R.id.TitleTextInput_title)
+        show = findViewById(R.id.TitleTextInput_show)
         editText = findViewById(R.id.TitleTextInput_text)
         btnCopy = findViewById(R.id.TitleTextInput_btnCopy)
 
@@ -81,9 +91,17 @@ class TitleTextInput : ConstraintLayout {
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         initComponent()
+
+
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.TitleTextInput, defStyle, 0
         )
+
+        a.getInt(R.styleable.TitleTextInput_android_inputType,0).let{
+            if(it != 0){
+                inputType = it
+            }
+        }
 
         a.getString(R.styleable.TitleTextInput_title)?.let{
             title = it
@@ -98,6 +116,14 @@ class TitleTextInput : ConstraintLayout {
         markError = a.getBoolean(R.styleable.TitleTextInput_markError, false)
 
         a.recycle()
+    }
+
+    private fun showHidePassword() {
+        if(show.visibility == View.INVISIBLE){
+            show.visibility = View.VISIBLE
+        }else{
+            show.visibility = View.INVISIBLE
+        }
     }
 
     private fun copyText(copiedText: String) {
