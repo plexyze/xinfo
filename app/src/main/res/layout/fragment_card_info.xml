@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/login"
+            app:copy="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fileName"/>
 
@@ -46,7 +47,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/password"
+            app:copy="true"
             android:inputType="textPassword"
+            app:showPassword="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login"/>
 
@@ -55,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/email"
+            app:copy="true"
             android:inputType="textWebEmailAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/password">

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.plexyze.xinfo.R
 import com.plexyze.xinfo.databinding.FragmentCardListBinding
-import com.plexyze.xinfo.login.LoginFragment
 import com.plexyze.xinfo.viewmodel.viewModelProvider
 
 
@@ -29,11 +28,6 @@ class CardListFragment : Fragment() {
 
         viewModel = viewModelProvider(this){
             CardListViewModel()
-        }
-
-        if(!viewModel.isLogined()){
-            val directions = CardListFragmentDirections.actionCardListFragmentToLoginFragment()
-            findNavController().navigate(directions)
         }
 
         viewModel.adapter.onClick = {

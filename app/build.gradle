@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     //Dagger
     implementation "com.google.dagger:dagger:$dagger_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     //JSON
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
