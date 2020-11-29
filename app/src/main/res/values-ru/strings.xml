@@ -12,4 +12,23 @@
     <string name="open">Открыть</string>
     <string name="error">Ошибка</string>
     <string name="enter_text">Введите текст</string>
+    <string name="new_repository">Новое хранилище</string>
+    <string name="repository">Хранилище</string>
+    <string name="log">Лог</string>
+    <string name="сonfirm">Подтвердить</string>
+    <string name="repository_list">Список хранилищ</string>
+    <string name="open_repository">Открыть хранилище</string>
+    <string name="ok">Ok</string>
+    <string name="repository_not_found">Хранилище не найден</string>
+    <string name="password_is_not_correct">Пароль не правильный</string>
+    <string name="password_not_specified">Пароль не указан</string>
+    <string name="edit_password">Изменить пароль</string>
+    <string name="delete_repository">Удалить хранилище</string>
+    <string name="field_repository_must_contain">Хранилище должено содержать латинские буквы и цифры. от 3 до 50 знаков</string>
+    <string name="all_fields_must_be_filled">Все поля не должны быть пустыми</string>
+    <string name="сonfirm_password_is_different">Подтвердите пароль отличается</string>
+    <string name="_already_exists">- уже существует</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="repository_name_to_delete">Для удаления введите имя хранилища</string>
+    <string name="oops">Упс. :(</string>
 </resources>

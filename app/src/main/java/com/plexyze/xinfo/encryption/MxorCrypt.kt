@@ -19,9 +19,8 @@ fun ByteArray.mxorEncrypt(password:ByteArray):ByteArray{
 }
 
 fun ByteArray.mxorDecrypt(password:ByteArray):ByteArray{
-    var isError = false
     val decryptedText = mutableListOf<Byte>()
-    val decryptStream = DecryptStream(password, { isError = true }){
+    val decryptStream = DecryptStream(password, { }){
         decryptedText.add(it)
     }
     this.forEach{

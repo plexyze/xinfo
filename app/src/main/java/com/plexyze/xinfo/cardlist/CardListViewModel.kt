@@ -21,8 +21,6 @@ class CardListViewModel():ViewModel() {
         job.cancel()
     }
 
-    fun isLogined() = passwordDao.isLogined()
-
     init {
         App.appComponent.inject(this)
         load()

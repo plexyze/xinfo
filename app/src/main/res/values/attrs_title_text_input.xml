@@ -3,7 +3,8 @@
         <attr name="title" format="string" />
         <attr name="text" format="string"/>
         <attr name="enabled" format="boolean"/>
-        <attr name="markError" format="boolean"/>
+        <attr name="copy" format="boolean"/>
+        <attr name="showPassword" format="boolean"/>
         <attr name="android:inputType"/>
     </declare-styleable>
 </resources>

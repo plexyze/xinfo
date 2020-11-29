@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/new_repository"
+        android:title="@string/new_repository" />
+    <item android:id="@+id/open_repository"
+        android:title="@string/open_repository" />
+    <item android:id="@+id/edit_password"
+        android:title="@string/edit_password" />
+    <item android:id="@+id/delete_repository"
+        android:title="@string/delete_repository" />
+</menu>
