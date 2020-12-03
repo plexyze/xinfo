@@ -25,10 +25,24 @@
     <string name="edit_password">Изменить пароль</string>
     <string name="delete_repository">Удалить хранилище</string>
     <string name="field_repository_must_contain">Хранилище должено содержать латинские буквы и цифры. от 3 до 50 знаков</string>
+    <string name="field_directory_must_contain">Папка должено содержать латинские буквы и цифры. от 3 до 50 знаков</string>
     <string name="all_fields_must_be_filled">Все поля не должны быть пустыми</string>
     <string name="сonfirm_password_is_different">Подтвердите пароль отличается</string>
     <string name="_already_exists">- уже существует</string>
     <string name="new_password">Новый пароль</string>
     <string name="repository_name_to_delete">Для удаления введите имя хранилища</string>
     <string name="oops">Упс. :(</string>
+    <string name="icon">Иконка</string>
+    <string name="directory">Папка</string>
+    <string name="new_directory">Новая папка</string>
+    <string name="repository_is_not_connected">Хранилище не подключено</string>
+    <string name="repository_write_error">Ошибка записи хранилища</string>
+    <string name="node_not_found">Узел не найден</string>
+    <string name="new_card">Новая карточка</string>
+    <string name="rename_directory">Переименовать папку</string>
+    <string name="edit_card">Изменить карту</string>
+    <string name="add_login">Добавить логин</string>
+    <string name="add_password">Добавить пароль</string>
+    <string name="add_email">Добавить электронную почту</string>
+    <string name="field_name_is_not_specified">Поле \"имя\" не задано</string>
 </resources>

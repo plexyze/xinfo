@@ -1,15 +1,9 @@
 package com.plexyze.xinfo.repository
 
 import android.content.Context
-import android.view.View
-import android.widget.EditText
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import com.plexyze.xinfo.R
-import com.plexyze.xinfo.cardlist.CardListAdapter
 import com.plexyze.xinfo.di.App
 import com.plexyze.xinfo.model.RepositoryDao
 import kotlinx.coroutines.*

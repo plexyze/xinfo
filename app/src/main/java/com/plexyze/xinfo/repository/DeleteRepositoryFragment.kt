@@ -28,8 +28,7 @@ class DeleteRepositoryFragment : Fragment() {
         }
 
         viewModel.onDeletedRepository = {
-            val directions = DeleteRepositoryFragmentDirections.actionDeleteRepositoryFragmentToRepositoryListFragment()
-            findNavController().navigate(directions)
+            findNavController().popBackStack()
         }
 
         binding.viewModel = viewModel

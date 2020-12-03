@@ -14,8 +14,6 @@ import com.plexyze.xinfo.viewmodel.viewModelProvider
 
 class OpenRepositoryFragment : Fragment() {
 
-    private lateinit var viewModel: OpenRepositoryViewModel
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
@@ -28,7 +26,7 @@ class OpenRepositoryFragment : Fragment() {
         val repository = arguments?.getString("repository") ?:""
         viewModel.repositoryChange(repository)
         viewModel.onOpened = {
-            var directions = OpenRepositoryFragmentDirections.actionOpenRepositoryFragmentToCardListFragment()
+            var directions = OpenRepositoryFragmentDirections.actionOpenRepositoryFragmentToExplorerFragment()
             findNavController().navigate(directions)
         }
         binding.viewModel = viewModel

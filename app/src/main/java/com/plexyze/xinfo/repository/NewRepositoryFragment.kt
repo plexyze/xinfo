@@ -26,12 +26,10 @@ class NewRepositoryFragment : Fragment() {
             NewRepositoryViewModel()
         }
         viewModel.onCreateRepository = {
-            val directions = NewRepositoryFragmentDirections.actionNewRepositoryFragmentToRepositoryListFragment()
-            findNavController().navigate(directions)
+            findNavController().popBackStack()
         }
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         return binding.root
     }
-
 }

@@ -3,21 +3,19 @@ package com.plexyze.xinfo.ui
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.ContextWrapper
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.BindingAdapter
 import com.plexyze.xinfo.R
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Method
 
 
 /**
@@ -26,50 +24,55 @@ import java.lang.reflect.Method
 class TitleTextInput : ConstraintLayout {
 
     private lateinit var titleView: TextView
-    private lateinit var show: TextView
     private lateinit var editText: EditText
     private lateinit var btnCopy: Button
 
+    private var lastType = InputType.TYPE_CLASS_TEXT
+    private var show = false
+    private var edit = ""
+
     var inputType
-        get() = editText.inputType
-        set(v){ editText.inputType = v}
+        get() = lastType
+        set(v){
+            show = false
+            lastType = InputType.TYPE_CLASS_TEXT or v
+            editText.inputType = lastType}
 
     var title:String
         get() = titleView.text.toString()
         set(v){titleView.text = v}
 
     var text:String
-        get() = show.text.toString()
+        get() = edit
         set(v){
-            if(show.text != v){
-                show.text = v
+            if(edit != v){
+                edit = v
                 editText.setText(v)
             }
         }
 
-    var eventChange:(String)->Unit={}
+    var eventChange: (String)->Unit={}
 
     var isEnabled:Boolean?
         get() = editText.isEnabled
         set(v){
-            if(v?:false){
+            if(v == true){
+                show = false
+                editText.inputType = lastType
                 editText.isEnabled = true
                 btnCopy.visibility = View.INVISIBLE
-                show.visibility = View.INVISIBLE
             }else{
                 editText.isEnabled = false
                 btnCopy.visibility = View.VISIBLE
                 btnCopy.setOnClickListener(){
-                    copyText(show.text.toString())
+                    copyText()
                     showHidePassword()
                 }
-            }}
+            }
+        }
+
 
     var isCopy:Boolean = false
-    var isShowPassword:Boolean = false
-
-
-
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -91,7 +94,6 @@ class TitleTextInput : ConstraintLayout {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.title_text_input, this)
         titleView = findViewById(R.id.TitleTextInput_title)
-        show = findViewById(R.id.TitleTextInput_show)
         editText = findViewById(R.id.TitleTextInput_text)
         btnCopy = findViewById(R.id.TitleTextInput_btnCopy)
         editText.addTextChangedListener(object : TextWatcher {
@@ -99,69 +101,71 @@ class TitleTextInput : ConstraintLayout {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 s?.let {
                     val str = s.toString()
-                    show.text = str
+                    edit = str
                     eventChange(str)
                 }
             }
+
             override fun afterTextChanged(s: Editable) {}
         })
+
+        editText.setOnFocusChangeListener(){ view, hasF ->
+            if(!hasF){
+                val imm: InputMethodManager = view.context.getSystemService(
+                    Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
     }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         initComponent()
-
-
         val a = context.obtainStyledAttributes(
-            attrs, R.styleable.TitleTextInput, defStyle, 0
+            attrs, R.styleable.TitleField, defStyle, 0
         )
 
-        a.getInt(R.styleable.TitleTextInput_android_inputType, 0).let{
+        a.getInt(R.styleable.TitleField_android_inputType, 0).let{
             if(it != 0){
                 inputType = it
+            }else{
+                inputType = InputType.TYPE_CLASS_TEXT
             }
         }
 
-        a.getString(R.styleable.TitleTextInput_title)?.let{
+        a.getString(R.styleable.TitleField_title)?.let{
             title = it
         }
 
-        a.getString(R.styleable.TitleTextInput_text)?.let{
+        a.getString(R.styleable.TitleField_text)?.let{
             text = it
         }
 
-        isEnabled = a.getBoolean(R.styleable.TitleTextInput_enabled, false)
+        isEnabled = a.getBoolean(R.styleable.TitleField_enabled, false)
 
-        isCopy = a.getBoolean(R.styleable.TitleTextInput_copy, false)
-
-        isShowPassword = a.getBoolean(R.styleable.TitleTextInput_showPassword, false)
+        isCopy = a.getBoolean(R.styleable.TitleField_copy, false)
 
         a.recycle()
     }
 
     private fun showHidePassword() {
-        if(!isShowPassword){
-            show.visibility = View.INVISIBLE
-            return
-        }
-        if(show.visibility == View.INVISIBLE){
-            show.visibility = View.VISIBLE
+        if(show){
+            show = false
+            editText.inputType = lastType
         }else{
-            show.visibility = View.INVISIBLE
+            show = true
+            editText.inputType = lastType and InputType.TYPE_TEXT_VARIATION_PASSWORD.inv()
         }
     }
 
-    private fun copyText(copiedText: String) {
+    private fun copyText() {
         if(!isCopy){
             return
         }
-        val clipboard =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("TAG", copiedText)
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("TAG", edit)
         clipboard.setPrimaryClip(clip)
-
-        val text = "Copy:$copiedText"
+        val text = "Copy: $edit"
         val duration = Toast.LENGTH_SHORT
-
         Toast.makeText(context, text, duration).show()
     }
 }

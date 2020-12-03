@@ -19,7 +19,7 @@ class SimpleListAdapter: ListAdapter<SimpleListAdapter.Row, SimpleListAdapter.Vi
     var onChangeSelected:(Set<String>)->Unit = {}
 
     val selected
-    get() = selector.selected
+        get() = selector.selected
 
 
     private val selector = RowSelector(){
@@ -50,7 +50,7 @@ class SimpleListAdapter: ListAdapter<SimpleListAdapter.Row, SimpleListAdapter.Vi
         selector.change(it)
     }
 
-    override fun submitList(list: MutableList<Row>?) {
+    override fun submitList(list: List<Row>?) {
         if(list != null){
             selector.filter(list.map{it.id})
             list.forEach(){it.selected = selector.contains(it.id)}
@@ -71,6 +71,7 @@ class SimpleListAdapter: ListAdapter<SimpleListAdapter.Row, SimpleListAdapter.Vi
 
         fun bind(row: Row, onClick:(String)->Unit, onLongClick:(String)->Unit){
             binding.mainLayout.setBackgroundResource(if(row.selected) R.color.color_selected_row else R.color.color_no_selected_row)
+            binding.icon.text = row.icon
             binding.nameRow.text = row.name
             binding.comment.text = row.comment
             binding.mainLayout.setOnClickListener(){
@@ -101,5 +102,5 @@ class SimpleListAdapter: ListAdapter<SimpleListAdapter.Row, SimpleListAdapter.Vi
         }
     }
 
-    data class Row(var id:String, var name:String,var selected:Boolean = false, var icon:Int = 0, var comment:String = "")
+    data class Row(var id:String, var name:String, var icon:String, var comment:String = "", var selected:Boolean = false  )
 }
