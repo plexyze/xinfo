@@ -8,45 +8,50 @@
             name="viewModel"
             type="com.plexyze.xinfo.repository.DeleteRepositoryViewModel" />
     </data>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".repository.DeleteRepositoryFragment">
-
-        <com.plexyze.xinfo.ui.TitleTextInput
-            android:id="@+id/repository"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/repository"
-            app:text="@{viewModel.repository}"/>
+            android:orientation="vertical"
+            tools:context=".repository.DeleteRepositoryFragment">
+
+            <com.plexyze.xinfo.ui.TitleTextInput
+                android:id="@+id/repository"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/repository"
+                app:text="@{viewModel.repository}"/>
 
 
-        <com.plexyze.xinfo.ui.TitleTextInput
-            android:id="@+id/confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:enabled="true"
-            app:eventChange="@{viewModel.confirmChange}"
-            app:title="@string/сonfirm"
-            app:text="@{viewModel.confirm}"/>
+            <com.plexyze.xinfo.ui.TitleTextInput
+                android:id="@+id/confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:enabled="true"
+                app:eventChange="@{viewModel.confirmChange}"
+                app:title="@string/сonfirm"
+                app:text="@{viewModel.confirm}"/>
 
-        <Button
-            android:id="@+id/btn_new_repository"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:enabled="@{viewModel.bntEnabled}"
-            android:onClick="@{()->viewModel.delete()}"
-            android:text="@string/delete_repository" />
+            <Button
+                android:id="@+id/btn_new_repository"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:enabled="@{viewModel.bntEnabled}"
+                android:onClick="@{()->viewModel.delete()}"
+                android:text="@string/delete_repository" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:textSize="10dp"
-            android:text="@{viewModel.log}" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:textSize="10dp"
+                android:text="@{viewModel.log}" />
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
 </layout>

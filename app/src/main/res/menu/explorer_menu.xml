@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/new_directory"
+        android:title="@string/new_directory" />
+    <item
+        android:id="@+id/new_card"
+        android:title="@string/new_card" />
+    <item
+        android:id="@+id/rename_directory"
+        android:title="@string/rename_directory" />
+    <item
+        android:id="@+id/edit_card"
+        android:title="@string/edit_card" />
+</menu>

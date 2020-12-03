@@ -1,6 +1,22 @@
 <resources>
-    <string name="app_name">x-info</string>
+    <string-array name="icon">
+        <item>📁</item>
+        <item>🔑</item>
+        <item>📱</item>
+        <item>☏</item>
+        <item>👤</item>
+        <item>📧</item>
+        <item>💳</item>
+        <item>🌐</item>
+        <item>🎮</item>
+        <item>📝</item>
+        <item>🏦</item>
+        <item>☣</item>
+        <item>☢</item>
+        <item>☛</item>
+    </string-array>
 
+    <string name="app_name">x-info</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="start">Start</string>
     <string name="name">Name</string>
@@ -26,10 +42,24 @@
     <string name="edit_password">Edit password</string>
     <string name="delete_repository">Delete repository</string>
     <string name="field_repository_must_contain">The \"Repository\" shall contain Latin characters and numbers. from 3 to 50 characters</string>
+    <string name="field_directory_must_contain">The \"Directory\" shall contain Latin characters and numbers. from 1 to 50 characters</string>
     <string name="all_fields_must_be_filled">All fields must not be empty</string>
     <string name="сonfirm_password_is_different">Confirm password is different</string>
     <string name="_already_exists">- already exists</string>
     <string name="new_password">New password</string>
     <string name="repository_name_to_delete">Enter the repository name to delete</string>
     <string name="oops">Oops. :(</string>
+    <string name="icon">Icon</string>
+    <string name="directory">Directory</string>
+    <string name="new_directory">New Directory</string>
+    <string name="repository_is_not_connected">The repository is not connected</string>
+    <string name="repository_write_error">Repository write error</string>
+    <string name="node_not_found">Node not found</string>
+    <string name="new_card">New card</string>
+    <string name="rename_directory">Rename directory</string>
+    <string name="edit_card">Edit card</string>
+    <string name="add_login">Add login</string>
+    <string name="add_password">Add password</string>
+    <string name="add_email">Add email</string>
+    <string name="field_name_is_not_specified">Field \"name\" is not specified</string>
 </resources>

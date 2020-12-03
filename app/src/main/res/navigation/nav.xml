@@ -31,13 +31,7 @@
         android:id="@+id/newRepositoryFragment"
         android:name="com.plexyze.xinfo.repository.NewRepositoryFragment"
         android:label="@string/new_repository"
-        tools:layout="@layout/new_repository_fragment">
-        <action
-            android:id="@+id/action_newRepositoryFragment_to_repositoryListFragment"
-            app:destination="@id/repositoryListFragment"
-            app:popUpTo="@id/repositoryListFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/new_repository_fragment"/>
 
     <fragment
         android:id="@+id/openRepositoryFragment"
@@ -48,10 +42,9 @@
             android:name="repository"
             app:argType="string" />
         <action
-            android:id="@+id/action_openRepositoryFragment_to_cardListFragment"
-            app:destination="@id/cardListFragment"
-            app:popUpTo="@id/openRepositoryFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_openRepositoryFragment_to_explorerFragment"
+            app:destination="@id/explorerFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -59,11 +52,6 @@
         android:name="com.plexyze.xinfo.repository.EditPasswordRepositoryFragment"
         android:label="@string/edit_password"
         tools:layout="@layout/edit_password_repository_fragment">
-        <action
-            android:id="@+id/action_editPasswordRepositoryFragment_to_repositoryListFragment"
-            app:destination="@id/repositoryListFragment"
-            app:popUpTo="@id/repositoryListFragment"
-            app:popUpToInclusive="true" />
         <argument
             android:name="repository"
             app:argType="string" />
@@ -74,35 +62,62 @@
         android:name="com.plexyze.xinfo.repository.DeleteRepositoryFragment"
         android:label="@string/delete_repository"
         tools:layout="@layout/delete_repository_fragment">
-        <action
-            android:id="@+id/action_deleteRepositoryFragment_to_repositoryListFragment"
-            app:destination="@id/repositoryListFragment"
-            app:popUpTo="@id/repositoryListFragment"
-            app:popUpToInclusive="true" />
         <argument
             android:name="repository"
             app:argType="string" />
     </fragment>
 
     <fragment
-        android:id="@+id/cardListFragment"
-        android:name="com.plexyze.xinfo.cardlist.CardListFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_card_list">
+        android:id="@+id/explorerFragment"
+        android:name="com.plexyze.xinfo.explorer.ExplorerFragment"
+        android:label="ExplorerFragment"
+        tools:layout="@layout/explorer_fragment">
         <action
-            android:id="@+id/action_homeFragment_to_cardInfoFragment"
-            app:destination="@id/cardInfoFragment" />
+            android:id="@+id/action_explorerFragment_to_editDirectoryFragment"
+            app:destination="@id/renameDirectoryFragment" />
+        <action
+            android:id="@+id/action_explorerFragment_to_renameCardFragment"
+            app:destination="@id/editCardFragment" />
+        <action
+            android:id="@+id/action_explorerFragment_to_cardFragment"
+            app:destination="@id/cardFragment" />
     </fragment>
     <fragment
-        android:id="@+id/cardInfoFragment"
-        android:name="com.plexyze.xinfo.cardinfo.CardInfoFragment"
-        android:label="fragment_card_info"
-        tools:layout="@layout/fragment_card_info">
+        android:id="@+id/renameDirectoryFragment"
+        android:name="com.plexyze.xinfo.explorer.RenameDirectoryFragment"
+        android:label="RenameDirectoryFragment"
+        tools:layout="@layout/rename_directory_fragment">
         <argument
-            android:name="id"
-            app:argType="long" />
+            android:name="parentId"
+            app:argType="string" />
+        <argument
+            android:name="directoryId"
+            app:argType="string" />
     </fragment>
-
+    <fragment
+        android:id="@+id/editCardFragment"
+        android:name="com.plexyze.xinfo.card.EditCardFragment"
+        android:label="EditCardFragment"
+        tools:layout="@layout/edit_card_fragment">
+        <argument
+            android:name="parentId"
+            app:argType="string" />
+        <argument
+            android:name="cardId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardFragment"
+        android:name="com.plexyze.xinfo.card.CardFragment"
+        android:label="CardFragment"
+        tools:layout="@layout/card_fragment">
+        <action
+            android:id="@+id/action_cardFragment_to_editCardFragment"
+            app:destination="@id/editCardFragment" />
+        <argument
+            android:name="cardId"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>

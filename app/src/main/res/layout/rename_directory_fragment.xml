@@ -6,53 +6,51 @@
     <data>
         <variable
             name="viewModel"
-            type="com.plexyze.xinfo.repository.NewRepositoryViewModel" />
+            type="com.plexyze.xinfo.explorer.RenameDirectoryViewModel" />
+        <variable
+            name="thisFragment"
+            type="com.plexyze.xinfo.explorer.RenameDirectoryFragment" />
     </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:context=".repository.NewRepositoryFragment">
+            tools:context=".explorer.RenameDirectoryFragment">
 
-            <com.plexyze.xinfo.ui.TitleTextInput
-                android:id="@+id/repository"
+            <com.plexyze.xinfo.ui.TitleSpinner
+                android:id="@+id/icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:enabled="true"
-                app:eventChange="@{viewModel.repositoryChange}"
-                app:title="@string/repository"
-                app:text="@{viewModel.repository}"/>
+                app:title="@string/icon"
+                app:options="@{thisFragment.icons}"
+                app:text="@{viewModel.icon}"
+                app:eventChange="@{viewModel.iconChange}"/>
 
             <com.plexyze.xinfo.ui.TitleTextInput
-                android:id="@+id/password"
+                android:id="@+id/directory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textWebPassword"
                 app:enabled="true"
-                app:eventChange="@{viewModel.passwordChange}"
-                app:title="@string/password"
-                app:text="@{viewModel.password}"/>
+                app:title="@string/directory"
+                app:eventChange="@{viewModel.directoryChange}"
+                app:text="@{viewModel.directory}"/>
 
-            <com.plexyze.xinfo.ui.TitleTextInput
-                android:id="@+id/confirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textWebPassword"
-                app:enabled="true"
-                app:eventChange="@{viewModel.confirmChange}"
-                app:title="@string/сonfirm"
-                app:text="@{viewModel.confirm}"/>
 
             <Button
                 android:id="@+id/btn_new_repository"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:enabled="@{viewModel.bntEnabled}"
-                android:onClick="@{()->viewModel.createRepository()}"
-                android:text="@string/new_repository" />
+                android:onClick="@{()->viewModel.saveDirectory()}"
+                android:text="@string/edit_password" />
+
+
 
             <TextView
                 android:id="@+id/textView"
@@ -60,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="false"
                 android:textSize="10dp"
-                android:text="@{viewModel.log}"/>
+                android:text="@{viewModel.log}" />
 
         </LinearLayout>
     </ScrollView>

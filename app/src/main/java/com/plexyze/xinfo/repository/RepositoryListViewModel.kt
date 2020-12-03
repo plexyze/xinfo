@@ -1,11 +1,7 @@
 package com.plexyze.xinfo.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.plexyze.xinfo.cardlist.CardListAdapter
 import com.plexyze.xinfo.di.App
-import com.plexyze.xinfo.model.PasswordDao
 import com.plexyze.xinfo.model.RepositoryDao
 import com.plexyze.xinfo.ui.SimpleListAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -50,7 +46,7 @@ class RepositoryListViewModel: ViewModel() {
     fun load(){
         uiScope.launch {
             val repositoryList = repositoryDao.getAll()
-            val rows = repositoryList.map(){ SimpleListAdapter.Row(id=it, name = it)}.toMutableList()
+            val rows = repositoryList.map(){ SimpleListAdapter.Row(id=it, name = it, icon = """🔐""")}.toMutableList()
             adapter.clearSelected()
             adapter.submitList(rows)
         }

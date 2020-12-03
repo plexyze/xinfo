@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/TitleTextInput_title"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/name"
@@ -14,23 +14,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/TitleTextInput_text"
+    <Spinner
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:inputType="textUri"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleTextInput_title"/>
-
-    <Button
-        android:id="@+id/TitleTextInput_btnCopy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:alpha="0.01"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/TitleTextInput_text"
-        app:layout_constraintStart_toStartOf="@+id/TitleTextInput_text" />
-
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.plexyze.xinfo.repository
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.view.children
 import androidx.core.view.forEach

@@ -27,8 +27,7 @@ class EditPasswordRepositoryFragment : Fragment() {
         }
 
         viewModel.onEditedRepository = {
-            val directions = EditPasswordRepositoryFragmentDirections.actionEditPasswordRepositoryFragmentToRepositoryListFragment()
-            findNavController().navigate(directions)
+            findNavController().popBackStack()
         }
 
         binding.viewModel = viewModel

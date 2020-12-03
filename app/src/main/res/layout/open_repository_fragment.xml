@@ -8,45 +8,49 @@
             name="viewModel"
             type="com.plexyze.xinfo.repository.OpenRepositoryViewModel" />
     </data>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".repository.OpenRepositoryFragment">
-
-        <com.plexyze.xinfo.ui.TitleTextInput
-            android:id="@+id/repository"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:eventChange="@{viewModel.repositoryChange}"
-            app:title="@string/repository"
-            app:text="@{viewModel.repository}"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".repository.OpenRepositoryFragment">
 
-        <com.plexyze.xinfo.ui.TitleTextInput
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textWebPassword"
-            app:enabled="true"
-            app:eventChange="@{viewModel.passwordChange}"
-            app:title="@string/password"
-            app:text="@{viewModel.password}"/>
+            <com.plexyze.xinfo.ui.TitleTextInput
+                android:id="@+id/repository"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:eventChange="@{viewModel.repositoryChange}"
+                app:title="@string/repository"
+                app:text="@{viewModel.repository}"/>
 
-        <Button
-            android:id="@+id/btn_open_repository"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:onClick="@{()->viewModel.openRepository()}"
-            android:text="@string/open_repository" />
+            <com.plexyze.xinfo.ui.TitleTextInput
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebPassword"
+                app:enabled="true"
+                app:eventChange="@{viewModel.passwordChange}"
+                app:title="@string/password"
+                app:text="@{viewModel.password}"/>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:textSize="10dp"
-            android:text="@{viewModel.log}"/>
+            <Button
+                android:id="@+id/btn_open_repository"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:onClick="@{()->viewModel.openRepository()}"
+                android:text="@string/open_repository" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:textSize="10dp"
+                android:text="@{viewModel.log}"/>
+
+        </LinearLayout>
+    </ScrollView>
+
 </layout>

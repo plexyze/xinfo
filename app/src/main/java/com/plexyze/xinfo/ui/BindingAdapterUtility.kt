@@ -13,3 +13,8 @@ fun setEventChange(titleTextInput: TitleTextInput, eventChange: (String)->Unit) 
 fun setAdapter(recyclerView: RecyclerView, adapter:SimpleListAdapter) {
     recyclerView.adapter = adapter
 }
+
+@BindingAdapter("app:options")
+fun setOptions(titleSpinner: TitleSpinner, options:List<String>) {
+    titleSpinner.options = options
+}
