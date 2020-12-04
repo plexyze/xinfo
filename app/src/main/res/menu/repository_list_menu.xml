@@ -9,4 +9,6 @@
         android:title="@string/edit_password" />
     <item android:id="@+id/delete_repository"
         android:title="@string/delete_repository" />
+    <item android:id="@+id/open_as_text"
+        android:title="@string/open_as_text" />
 </menu>

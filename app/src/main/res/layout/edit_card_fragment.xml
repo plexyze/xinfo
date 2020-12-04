@@ -36,6 +36,7 @@
                 android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textWebEmailAddress"
                 app:enabled="true"
                 app:title="@string/name"
                 app:eventChange="@{viewModel.nameChange}"
@@ -49,16 +50,18 @@
 
             <Button
                 android:id="@+id/btn_save"
+                style="@style/ButtonStyle"
+                android:background="@drawable/button"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
+                android:enabled="@{viewModel.bntEnabled}"
                 android:text="@string/save" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:textSize="10dp"
+                style="@style/Log"
                 android:text="@{viewModel.log}" />
 
         </LinearLayout>

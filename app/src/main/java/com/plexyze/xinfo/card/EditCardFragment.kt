@@ -3,8 +3,10 @@ package com.plexyze.xinfo.card
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.core.view.children
+import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.plexyze.xinfo.R
@@ -13,6 +15,7 @@ import com.plexyze.xinfo.model.FieldEntity
 import com.plexyze.xinfo.model.FieldType
 import com.plexyze.xinfo.ui.TitleTextInput
 import com.plexyze.xinfo.viewmodel.viewModelProvider
+import androidx.core.view.forEachIndexed as forEachIndexed1
 
 class EditCardFragment: Fragment() {
 
@@ -61,6 +64,16 @@ class EditCardFragment: Fragment() {
                 FieldType.EMAIL -> addEmail(it.value)
             }
         }
+        if(fields.isEmpty()){
+            context?.let { context ->
+                val text = TextView(context)
+                text.text = getString(R.string.to_add_fields_press_menu)
+                binding.fields.addView(text)
+                addPassword("")
+                addEmail("")
+                addLogin("")
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -92,7 +105,7 @@ class EditCardFragment: Fragment() {
             login.inputType = InputType.TYPE_CLASS_TEXT
             login.text = text
             login.isEnabled = true
-            binding.fields.addView(login)
+            addField(login)
         }
     }
     private fun addPassword(text:String){
@@ -102,7 +115,7 @@ class EditCardFragment: Fragment() {
             password.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
             password.text = text
             password.isEnabled = true
-            binding.fields.addView(password)
+            addField(password)
         }
     }
     private fun addEmail(text:String){
@@ -112,8 +125,18 @@ class EditCardFragment: Fragment() {
             email.inputType =InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
             email.text = text
             email.isEnabled = true
-            binding.fields.addView(email)
+            addField(email)
         }
+    }
+
+    private fun addField(view:View){
+        var index = 0
+        binding.fields.children.forEachIndexed(){ i, v->
+            if (v.hasFocus()){
+                index = i+1
+            }
+        }
+        binding.fields.addView(view,index)
     }
 
     private fun saveCard(){

@@ -48,8 +48,10 @@
 
             <Button
                 android:id="@+id/btn_new_repository"
+                style="@style/ButtonStyle"
+                android:background="@drawable/button"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:enabled="@{viewModel.bntEnabled}"
                 android:onClick="@{()->viewModel.createRepository()}"
                 android:text="@string/new_repository" />
@@ -58,8 +60,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:textSize="10dp"
+                style="@style/Log"
                 android:text="@{viewModel.log}"/>
 
         </LinearLayout>

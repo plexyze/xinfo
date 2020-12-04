@@ -1,5 +1,6 @@
 package com.plexyze.xinfo.explorer
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.plexyze.xinfo.R
@@ -78,6 +79,14 @@ class ExplorerViewModel : ViewModel() {
                 submitList(refs)
             }
         }
+    }
+
+    fun deleteNode(delId:String){
+        uiScope.launch {
+            passwordDao.deleteNode(delId)
+            load()
+        }
+
     }
 
     private fun submitList(refs:List<NodeRef>){

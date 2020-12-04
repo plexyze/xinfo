@@ -71,6 +71,7 @@ class RepositoryListFragment : Fragment() {
                 R.id.open_repository -> item.isEnabled = true
                 R.id.delete_repository -> item.isEnabled = true
                 R.id.edit_password -> item.isEnabled = true
+                R.id.open_as_text -> item.isEnabled = true
                 else -> item.isEnabled = false
             }
         }
@@ -100,6 +101,13 @@ class RepositoryListFragment : Fragment() {
             R.id.delete_repository -> {
                 viewModel.selected.forEach(){
                     val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToDeleteRepositoryFragment(it)
+                    findNavController().navigate(directions)
+                }
+                true
+            }
+            R.id.open_as_text -> {
+                viewModel.selected.forEach(){
+                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToTextFileFragment(it)
                     findNavController().navigate(directions)
                 }
                 true

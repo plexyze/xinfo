@@ -23,6 +23,7 @@ interface AppComponent {
     fun inject(viewModel: ExplorerViewModel)
     fun inject(viewModel: RenameDirectoryViewModel)
     fun inject(viewModel: EditCardViewModel)
+    fun inject(viewModel: TextFileViewModel)
     fun inject(viewModel: CardViewModel)
 
     //Dao

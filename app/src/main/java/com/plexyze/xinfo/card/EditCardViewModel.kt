@@ -51,7 +51,7 @@ class EditCardViewModel(private val _parentId:String, private var cardId:String)
 
         val nextLog = StringBuffer()
 
-        if(!name.matches(Regex("[a-zA-Z0-9_]{1,50}"))){
+        if(!name.matches(Regex("[a-zA-Z0-9_.]{1,50}"))){
             nextLog.appendLine(context.getString(R.string.field_directory_must_contain))
         }
 

@@ -9,12 +9,12 @@ import kotlinx.coroutines.sync.withLock
 import java.util.*
 import javax.inject.Inject
 
-data class NodeRef(var type:NodeType,var id:String,var name:String,var comment:String,var icon:String)
+data class NodeRef(var type:NodeType,var id:String,var name:String, var icon:String,var comment:String)
 
 data class NodeRefResult(var result:Int,var refs:List<NodeRef> = listOf())
 data class NodeResult(var result:Int,var node:Node = Node())
 
-class PasswordDao(private val context:Context){
+class PasswordDao(){
     @Inject
     lateinit var fileManager: FileManager
 
@@ -64,14 +64,48 @@ class PasswordDao(private val context:Context){
                     icon = """🔙""",
                     comment = "")) }
 
-            passwordsEntity.nodes.filter { it.parentId == id }
-                .forEach(){node -> refs.add( NodeRef(
+            passwordsEntity.nodes.filter { it.parentId == id && it.type == NodeType.DIRECTORY}
+                .sortedBy { it.name }
+                .forEach(){node -> refs.add(NodeRef(
+                        type = node.type,
+                        id = node.id,
+                        name = node.name,
+                        icon = node.icon,
+                        comment = """📁(${passwordsEntity.nodes.filter{it.parentId == node.id}.size})""")) }
+
+            passwordsEntity.nodes.filter { it.parentId == id && it.type == NodeType.CARD}
+                .sortedBy { it.name }
+                .forEach(){node -> refs.add(NodeRef(
                     type = node.type,
                     id = node.id,
                     name = node.name,
                     icon = node.icon,
-                    comment = "")) }
+                    comment = """📝 ${node.fields.filter { it.type != FieldType.PASSWORD }.joinToString(" ") { it.value }}"""
+                    )) }
+
             return NodeRefResult(R.string.ok,refs)
+        }
+    }
+
+    suspend fun deleteNode(nodeId:String):Int{
+        mutex.withLock {
+            if(!isOpened()){
+                return R.string.repository_is_not_connected
+            }
+
+            val index = passwordsEntity.nodes.indexOfFirst { it.id == nodeId }
+
+            if(index < 0){
+                return R.string.node_not_found
+            }
+
+            passwordsEntity.nodes.removeAt(index)
+            passwordsEntity.nodes = passwordsEntity.nodes.gc()
+
+            if(!fileManager.writePasswords(repositoryOpened, passwordsEntity)){
+                return R.string.repository_write_error
+            }
+            return R.string.ok
         }
     }
 
@@ -139,12 +173,7 @@ class PasswordDao(private val context:Context){
                 return NodeResult(R.string._already_exists,cardNode)
             }
 
-            var index = -1
-            passwordsEntity.nodes.forEachIndexed{i,n->
-                if(n.id == cardNode.id){
-                    index = i
-                }
-            }
+            val index = passwordsEntity.nodes.indexOfFirst { it.id == cardNode.id }
 
             if(index == -1){
                 passwordsEntity.nodes.add(cardNode)
@@ -170,8 +199,19 @@ class PasswordDao(private val context:Context){
             return NodeResult(R.string.node_not_found)
         }
     }
+    private fun List<Node>.gc():MutableList<Node>{
+        var repeat = true
+        var lastList = this
+        while(repeat){
+            val all = lastList.map { it.id }.toSet()
+            val newList = lastList.filter { it.parentId == "" || all.contains(it.parentId) }
+            repeat = newList.size != lastList.size
+            lastList = newList
+        }
+        return lastList.toMutableList()
+    }
 
-    fun List<Node>.newId():String{
+    private fun List<Node>.newId():String{
         val time = Date().time.toString()
         var count = 1L
         var id = "$time-$count"

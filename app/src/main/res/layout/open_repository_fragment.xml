@@ -37,8 +37,10 @@
 
             <Button
                 android:id="@+id/btn_open_repository"
+                style="@style/ButtonStyle"
+                android:background="@drawable/button"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:onClick="@{()->viewModel.openRepository()}"
                 android:text="@string/open_repository" />
 
@@ -46,8 +48,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:textSize="10dp"
+                style="@style/Log"
                 android:text="@{viewModel.log}"/>
 
         </LinearLayout>
