@@ -5,6 +5,8 @@ import kotlinx.coroutines.sync.withLock
 import java.io.File
 import java.util.*
 
+data class FileInfo(var name:String, var size:Long, var lastModified:Long)
+
 class FileManager(val rootDirectory: String) {
     val mutex = Mutex()
 
@@ -20,11 +22,16 @@ class FileManager(val rootDirectory: String) {
         }
     }
 
-    suspend fun files():List<String>{
+    suspend fun files():List<FileInfo>{
         mutex.withLock {
             return if(check()){
                 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-                return File(rootDirectory).listFiles().mapNotNull { it.name }.toList()
+                return File(rootDirectory).listFiles()
+                    .mapNotNull {  FileInfo(
+                        name = it.name,
+                        size = it.length(),
+                        lastModified = it.lastModified()) }
+                    .toList()
             }else{
                 listOf()
             }

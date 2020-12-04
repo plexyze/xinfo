@@ -7,28 +7,30 @@
 
     <TextView
         android:id="@+id/TitleTextInput_title"
+        style="@style/FieldHeaderStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/name"
-        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/TitleTextInput_text"
+        style="@style/FieldStyle"
+        android:background="@drawable/edit_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:inputType="textUri"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleTextInput_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/TitleTextInput_title" />
+
+
 
     <Button
         android:id="@+id/TitleTextInput_btnCopy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.01"
-        android:textSize="20dp"
+        android:alpha="0.001"
+        style="@style/FieldStyle"
         app:layout_constraintBottom_toBottomOf="@+id/TitleTextInput_text"
         app:layout_constraintStart_toStartOf="@+id/TitleTextInput_text" />
 

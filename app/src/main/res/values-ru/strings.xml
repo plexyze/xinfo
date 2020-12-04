@@ -45,4 +45,12 @@
     <string name="add_password">Добавить пароль</string>
     <string name="add_email">Добавить электронную почту</string>
     <string name="field_name_is_not_specified">Поле \"имя\" не задано</string>
+    <string name="to_add_fields_press_menu">Чтобы добавить поля, нажмите ︙ и выберите нужный тип поля. Новое поле будет добавлено после редактируемого в данный момент. Пустые поля будут удалены автоматически.</string>
+    <string name="delete">Удалить</string>
+    <string name="are_you_sure_about_thes">Are you sure about thes?</string>
+    <string name="cancel">Отмена</string>
+    <string name="open_as_text">Открыть как текст</string>
+    <string name="text_file">Текстовый файл</string>
+    <string name="explorer">Explorer</string>
+    <string name="card">Карточка</string>
 </resources>

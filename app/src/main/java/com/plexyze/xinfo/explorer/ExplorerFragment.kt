@@ -3,15 +3,20 @@ package com.plexyze.xinfo.explorer
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.plexyze.xinfo.R
 import com.plexyze.xinfo.databinding.ExplorerFragmentBinding
+import com.plexyze.xinfo.ui.ConfirmDialog
+import com.plexyze.xinfo.ui.confirmDialog
 import com.plexyze.xinfo.viewmodel.viewModelProvider
 import java.lang.Exception
+import kotlin.concurrent.fixedRateTimer
 
 class ExplorerFragment : Fragment() {
 
@@ -40,7 +45,6 @@ class ExplorerFragment : Fragment() {
         viewModel.load()
         setHasOptionsMenu(true)
         binding.lifecycleOwner = this
-        Log.e("onCreateView",this.toString())
         return binding.root
     }
 
@@ -76,6 +80,7 @@ class ExplorerFragment : Fragment() {
     private fun updateSelectedCard(item: MenuItem){
         when (item.itemId) {
             R.id.edit_card -> item.isEnabled = true
+            R.id.delete -> item.isEnabled = true
             else -> item.isEnabled = false
         }
     }
@@ -83,6 +88,7 @@ class ExplorerFragment : Fragment() {
     private fun updateSelectedDirectory(item: MenuItem){
         when (item.itemId) {
             R.id.rename_directory -> item.isEnabled = true
+            R.id.delete -> item.isEnabled = true
             else -> item.isEnabled = false
         }
     }
@@ -113,6 +119,19 @@ class ExplorerFragment : Fragment() {
                 if(selected is ExplorerViewModel.Select.Directory){
                     val directions = ExplorerFragmentDirections.actionExplorerFragmentToEditDirectoryFragment(viewModel.directoryId,selected.id)
                     findNavController().navigate(directions)
+                }
+                true
+            }
+            R.id.delete ->{
+                when(val selected = viewModel.selected.value){
+                    is ExplorerViewModel.Select.Directory ->
+                        confirmDialog(R.string.are_you_sure_about_thes){
+                            viewModel.deleteNode(selected.id)
+                        }
+                    is ExplorerViewModel.Select.Card ->
+                        confirmDialog(R.string.are_you_sure_about_thes){
+                            viewModel.deleteNode(selected.id)
+                        }
                 }
                 true
             }

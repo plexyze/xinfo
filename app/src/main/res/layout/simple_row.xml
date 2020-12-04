@@ -24,8 +24,7 @@
             android:id="@+id/nameRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NameRow"
-            android:textSize="20dp"
+            style="@style/SimpleRow"
             app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,8 +32,7 @@
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="comment"
-            android:textSize="10dp"
+            style="@style/SimpleRowCommentStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toBottomOf="@+id/nameRow" />

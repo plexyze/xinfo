@@ -13,7 +13,9 @@ class RepositoryDao {
         App.appComponent.inject(this)
     }
 
-    suspend fun getAll():List<String> = fileManager.files()
+    suspend fun getAll() = fileManager.files()
+
+    suspend fun read(repository: String) = fileManager.read(repository)
 
 
     suspend fun create(repository:String, password:String):Boolean{

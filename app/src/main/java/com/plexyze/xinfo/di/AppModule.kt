@@ -19,8 +19,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun cratePasswordDao(context: Context):PasswordDao{
-        return PasswordDao(context)
+    fun cratePasswordDao():PasswordDao{
+        return PasswordDao()
     }
 
     @Provides

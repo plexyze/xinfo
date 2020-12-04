@@ -15,7 +15,9 @@
             app:destination="@id/newRepositoryFragment" />
         <action
             android:id="@+id/action_repositoryListFragment_to_openRepositoryFragment"
-            app:destination="@id/openRepositoryFragment" />
+            app:destination="@id/openRepositoryFragment"
+            app:popUpTo="@id/repositoryListFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_repositoryListFragment_to_editPasswordRepositoryFragment"
             app:destination="@id/editPasswordRepositoryFragment" />
@@ -25,6 +27,9 @@
         <action
             android:id="@+id/action_repositoryListFragment_to_deleteRepositoryFragment"
             app:destination="@id/deleteRepositoryFragment" />
+        <action
+            android:id="@+id/action_repositoryListFragment_to_textFileFragment"
+            app:destination="@id/textFileFragment" />
     </fragment>
 
     <fragment
@@ -44,7 +49,8 @@
         <action
             android:id="@+id/action_openRepositoryFragment_to_explorerFragment"
             app:destination="@id/explorerFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/repositoryListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -70,7 +76,7 @@
     <fragment
         android:id="@+id/explorerFragment"
         android:name="com.plexyze.xinfo.explorer.ExplorerFragment"
-        android:label="ExplorerFragment"
+        android:label="@string/explorer"
         tools:layout="@layout/explorer_fragment">
         <action
             android:id="@+id/action_explorerFragment_to_editDirectoryFragment"
@@ -85,7 +91,7 @@
     <fragment
         android:id="@+id/renameDirectoryFragment"
         android:name="com.plexyze.xinfo.explorer.RenameDirectoryFragment"
-        android:label="RenameDirectoryFragment"
+        android:label="@string/rename_directory"
         tools:layout="@layout/rename_directory_fragment">
         <argument
             android:name="parentId"
@@ -97,7 +103,7 @@
     <fragment
         android:id="@+id/editCardFragment"
         android:name="com.plexyze.xinfo.card.EditCardFragment"
-        android:label="EditCardFragment"
+        android:label="@string/edit_card"
         tools:layout="@layout/edit_card_fragment">
         <argument
             android:name="parentId"
@@ -109,13 +115,22 @@
     <fragment
         android:id="@+id/cardFragment"
         android:name="com.plexyze.xinfo.card.CardFragment"
-        android:label="CardFragment"
+        android:label="@string/card"
         tools:layout="@layout/card_fragment">
         <action
             android:id="@+id/action_cardFragment_to_editCardFragment"
             app:destination="@id/editCardFragment" />
         <argument
             android:name="cardId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/textFileFragment"
+        android:name="com.plexyze.xinfo.repository.TextFileFragment"
+        android:label="@string/text_file"
+        tools:layout="@layout/fragment_text_file">
+        <argument
+            android:name="repository"
             app:argType="string" />
     </fragment>
 
