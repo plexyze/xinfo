@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.plexyze.xinfo.R
 import com.plexyze.xinfo.di.App
-import com.plexyze.xinfo.model.FieldEntity
-import com.plexyze.xinfo.model.Node
-import com.plexyze.xinfo.model.NodeType
-import com.plexyze.xinfo.model.PasswordDao
+import com.plexyze.xinfo.model.*
+import com.plexyze.xinfo.res.Icons
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,6 +20,8 @@ class EditCardViewModel(private val _parentId:String, private var cardId:String)
     @Inject
     lateinit var context: Context
 
+    val icons = Icons
+
     var parentId = _parentId
         private set
 
@@ -29,7 +29,9 @@ class EditCardViewModel(private val _parentId:String, private var cardId:String)
     private val uiScope = CoroutineScope(Dispatchers.Main +  job)
 
     val name = MutableLiveData<String>().apply { value = ""}
+    val nameError = MutableLiveData<String>().apply { value = ""}
     val icon = MutableLiveData<String>().apply { value = """🔑"""}
+    val iconError = MutableLiveData<String>().apply { value = ""}
     val log = MutableLiveData<String>().apply { value = ""}
     val bntEnabled = MutableLiveData<Boolean>().apply { value = false}
     val saved = MutableLiveData<Boolean>().apply { value = false}
@@ -45,33 +47,45 @@ class EditCardViewModel(private val _parentId:String, private var cardId:String)
         validate()
     }
 
+    fun addField(index:Int,type:FieldType){
+        val mutableFields = fields.value?.toMutableList()?: mutableListOf()
+        mutableFields.add(index, FieldEntity(type,""))
+        fields.value = mutableFields
+    }
+
+    fun isNotError() = !isError()
+    fun isError() = nameError.value?.isNotEmpty()?:false
+            || iconError.value?.isNotEmpty()?:false
+
     private fun validate(){
         val name = name.value?:""
         val icon = icon.value?:"""🔑"""
 
-        val nextLog = StringBuffer()
+        val nameErrors = name.validateFileName()
+        nameError.value = nameErrors
+            .joinToString("\n") { context.getString(it) }
 
-        if(!name.matches(Regex("[a-zA-Z0-9_.]{1,50}"))){
-            nextLog.appendLine(context.getString(R.string.field_directory_must_contain))
-        }
+        iconError.value =
+            if(icon.isEmpty()) context.getString(R.string.not_filled)
+            else ""
 
-        if(icon.isEmpty() ){
-            nextLog.appendLine(context.getString(R.string.all_fields_must_be_filled))
-        }
-
-        log.value = nextLog.toString()
-        bntEnabled.value = nextLog.isEmpty()
+        bntEnabled.value = isNotError()
+        log.value = ""
     }
 
-    fun saveCard(fields:List<FieldEntity>){
+    fun saveCard(){
+        val fieldsSave = fields.value
+            ?.filter {it.type!=FieldType.NON && it.value.isNotEmpty() }?: listOf()
+        fields.value = fieldsSave
         val sCard = Node(
             type = NodeType.CARD,
             id = cardId,
             parentId = parentId,
             name = name.value?:"",
             icon = icon.value?:"""🔑""",
-            fields = fields
+            fields = fieldsSave
         )
+        log.value = context.getString(R.string.wait)
         uiScope.launch {
             val (result, node) = passwordDao.saveCard(sCard)
             if(result == R.string.ok){
@@ -95,6 +109,9 @@ class EditCardViewModel(private val _parentId:String, private var cardId:String)
 
     private fun load(){
         icon.value = """🔑"""
+        fields.value = listOf(
+            FieldEntity(FieldType.EMAIL,""),
+            FieldEntity(FieldType.PASSWORD,""))
         if(cardId.isNotEmpty()) uiScope.launch {
             val(result,node) = passwordDao.getNode(cardId)
             if(result == R.string.ok){

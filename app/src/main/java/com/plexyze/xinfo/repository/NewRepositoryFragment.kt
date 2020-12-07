@@ -25,8 +25,8 @@ class NewRepositoryFragment : Fragment() {
         val viewModel = viewModelProvider(this){
             NewRepositoryViewModel()
         }
-        viewModel.onCreateRepository = {
-            findNavController().popBackStack()
+        viewModel.created.observe(viewLifecycleOwner){
+            if(it)findNavController().popBackStack()
         }
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)

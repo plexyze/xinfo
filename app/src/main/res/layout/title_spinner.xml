@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/text"
+        android:id="@+id/spinner"
         style="@style/FieldStyle"
         android:background="@drawable/edit_field"
         android:layout_width="match_parent"

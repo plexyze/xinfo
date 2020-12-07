@@ -1,21 +1,4 @@
 <resources>
-    <string-array name="icon">
-        <item>📁</item>
-        <item>🔑</item>
-        <item>📱</item>
-        <item>☏</item>
-        <item>👤</item>
-        <item>📧</item>
-        <item>💳</item>
-        <item>🌐</item>
-        <item>🎮</item>
-        <item>📝</item>
-        <item>🏦</item>
-        <item>☣</item>
-        <item>☢</item>
-        <item>☛</item>
-    </string-array>
-
     <string name="app_name">x-info</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="start">Start</string>
@@ -37,6 +20,8 @@
     <string name="open_repository">Open repository</string>
     <string name="ok">Ok</string>
     <string name="repository_not_found">Repository not found</string>
+    <string name="repository_is_not_correct">Repository is not correct</string>
+    <string name="new_password_is_not_correct">New password is not correct</string>
     <string name="password_is_not_correct">Password is not correct</string>
     <string name="password_not_specified">Password not specified</string>
     <string name="edit_password">Edit password</string>
@@ -64,10 +49,21 @@
     <string name="field_name_is_not_specified">Field \"name\" is not specified</string>
     <string name="to_add_fields_press_menu">To add fields, press ︙ and select the desired field type. The new field will be added after the currently edited one. Empty fields will be removed automatically.</string>
     <string name="delete">Delete</string>
-    <string name="are_you_sure_about_thes">Are you sure about thes?</string>
+    <string name="are_you_sure_about_that">Are you sure about that?</string>
     <string name="cancel">Сancel</string>
     <string name="open_as_text">Open as text</string>
     <string name="text_file">Text file</string>
     <string name="explorer">Explorer</string>
     <string name="card">Card</string>
+    <string name="not_filled">Not filled</string>
+    <string name="invalid_file_name_characters">Invalid characters \\ /: *?\"\' «≤> |»</string>
+    <string name="max_size_128_chars">Maximum size 128 characters</string>
+    <string name="less_than_8_characters">Less_than_8_characters</string>
+    <string name="must_contain_uppercase_characters">Must contain uppercase characters</string>
+    <string name="must_contain_lowercase_characters">Must contain lowercase characters</string>
+    <string name="must_contain_numbers">Must contain numbers</string>
+    <string name="wait">Wait...</string>
+    <string name="confirm">Confirm</string>
+    <string name="payment_card">Payment card</string>
+    <string name="add_payment_card">Add payment card</string>
 </resources>

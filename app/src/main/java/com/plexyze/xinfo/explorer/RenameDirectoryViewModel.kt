@@ -6,26 +6,32 @@ import androidx.lifecycle.ViewModel
 import com.plexyze.xinfo.R
 import com.plexyze.xinfo.di.App
 import com.plexyze.xinfo.model.PasswordDao
+import com.plexyze.xinfo.model.validateFileName
+import com.plexyze.xinfo.res.Icons
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RenameDirectoryViewModel(val parentId:String, private var directoryId:String) : ViewModel() {
+class RenameDirectoryViewModel(private val parentId:String, private var directoryId:String) : ViewModel() {
     @Inject
     lateinit var passwordDao: PasswordDao
 
     @Inject
     lateinit var context: Context
 
+    var icons = Icons
+
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main +  job)
 
-    var onEdited:()->Unit = {}
+    var edited = MutableLiveData<Boolean>().apply { value = false}
 
     val directory = MutableLiveData<String>().apply { value = ""}
+    val directoryError = MutableLiveData<String>().apply { value = ""}
     val icon = MutableLiveData<String>().apply { value = ""}
+    val iconError = MutableLiveData<String>().apply { value = ""}
     val log = MutableLiveData<String>().apply { value = ""}
     val bntEnabled = MutableLiveData<Boolean>().apply { value = false}
 
@@ -39,28 +45,28 @@ class RenameDirectoryViewModel(val parentId:String, private var directoryId:Stri
         validate()
     }
 
-
-
+    fun isNotError() = !isError()
+    fun isError() = directoryError.value?.isNotEmpty()?:false
+            || iconError.value?.isNotEmpty()?:false
 
     private fun validate(){
         val directory = directory.value?:""
         val icon = icon.value?:""
 
-        val nextLog = StringBuffer()
+        val repositoryErrors = directory.validateFileName()
+        directoryError.value = repositoryErrors
+            .joinToString("\n") { context.getString(it) }
 
-        if(!directory.matches(Regex("[a-zA-Z0-9_]{1,50}"))){
-            nextLog.appendLine(context.getString(R.string.field_directory_must_contain))
-        }
+        iconError.value =
+            if(icon.isEmpty()) context.getString(R.string.not_filled)
+            else ""
 
-        if(icon.isEmpty() ){
-            nextLog.appendLine(context.getString(R.string.all_fields_must_be_filled))
-        }
-
-        log.value = nextLog.toString()
-        bntEnabled.value = nextLog.isEmpty()
+        bntEnabled.value = isNotError()
+        log.value = ""
     }
 
     fun saveDirectory(){
+        log.value = context.getString(R.string.wait)
         uiScope.launch {
             val directory = directory.value?:""
             val icon = icon.value?:""
@@ -70,10 +76,7 @@ class RenameDirectoryViewModel(val parentId:String, private var directoryId:Stri
                     name = directory,
                     icon = icon
                 )
-                if(result == R.string.ok){
-                    directoryId = node.id
-                    onEdited()
-                }
+                edited.value = result == R.string.ok
                 log.value = context.getString(result)
             }else{
                 val (result, node) = passwordDao.renameDirectory(
@@ -81,9 +84,7 @@ class RenameDirectoryViewModel(val parentId:String, private var directoryId:Stri
                     name = directory,
                     icon = icon
                 )
-                if(result == R.string.ok){
-                    onEdited()
-                }
+                edited.value = result == R.string.ok
                 log.value = context.getString(result)
             }
         }
@@ -100,6 +101,7 @@ class RenameDirectoryViewModel(val parentId:String, private var directoryId:Stri
     }
 
     fun load(){
+        edited.value = false
         icon.value = """📁"""
         if(!directoryId.isEmpty()) uiScope.launch {
             val(result,node) = passwordDao.getNode(directoryId)

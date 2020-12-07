@@ -6,33 +6,42 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/TitleTextInput_title"
+        android:id="@+id/title"
         style="@style/FieldHeaderStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/name"
+        tools:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/TitleTextInput_text"
+        android:id="@+id/text"
         style="@style/FieldStyle"
         android:background="@drawable/edit_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        tools:text="@string/enter_text"
+        android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleTextInput_title" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <Button
-        android:id="@+id/TitleTextInput_btnCopy"
+        android:id="@+id/btnCopy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha="0.001"
         style="@style/FieldStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/TitleTextInput_text"
-        app:layout_constraintStart_toStartOf="@+id/TitleTextInput_text" />
+        app:layout_constraintBottom_toBottomOf="@+id/text"
+        app:layout_constraintStart_toStartOf="@+id/text" />
+
+    <TextView
+        android:id="@+id/error"
+        style="@style/ErrorLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

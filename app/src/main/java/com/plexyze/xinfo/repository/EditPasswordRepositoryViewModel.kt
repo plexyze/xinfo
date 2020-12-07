@@ -8,13 +8,14 @@ import androidx.lifecycle.ViewModel
 import com.plexyze.xinfo.R
 import com.plexyze.xinfo.di.App
 import com.plexyze.xinfo.model.RepositoryDao
+import com.plexyze.xinfo.model.validatePassword
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class EditPasswordRepositoryViewModel(val repositoryDef:String) : ViewModel() {
+class EditPasswordRepositoryViewModel() : ViewModel() {
     @Inject
     lateinit var repositoryDao: RepositoryDao
 
@@ -24,15 +25,22 @@ class EditPasswordRepositoryViewModel(val repositoryDef:String) : ViewModel() {
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main +  job)
 
-    var onEditedRepository:()->Unit = {}
-
-    val repository = MutableLiveData<String>().apply { value = repositoryDef}
+    val edited = MutableLiveData<Boolean>().apply { value = false }
+    val repository = MutableLiveData<String>().apply { value = ""}
+    val repositoryError = MutableLiveData<String>().apply { value = ""}
     val oldPassword = MutableLiveData<String>().apply { value = ""}
+    val oldPasswordError = MutableLiveData<String>().apply { value = ""}
     val password = MutableLiveData<String>().apply { value = ""}
+    val passwordError = MutableLiveData<String>().apply { value = ""}
     val confirm = MutableLiveData<String>().apply { value = ""}
+    val confirmError = MutableLiveData<String>().apply { value = ""}
     val log = MutableLiveData<String>().apply { value = ""}
     val bntEnabled = MutableLiveData<Boolean>().apply { value = false}
 
+    val repositoryChange:(String)->Unit = {
+        repository.value = it
+        validate()
+    }
 
     val oldPasswordChange:(String)->Unit = {
         oldPassword.value = it
@@ -49,39 +57,48 @@ class EditPasswordRepositoryViewModel(val repositoryDef:String) : ViewModel() {
         validate()
     }
 
-    fun validate(){
+    fun isNotError() = !isError()
+    fun isError() = repositoryError.value?.isNotEmpty()?:false
+            || oldPasswordError.value?.isNotEmpty()?:false
+            || passwordError.value?.isNotEmpty()?:false
+            || confirmError.value?.isNotEmpty()?:false
+
+    private fun validate(){
         val repositoryText = repository.value?:""
-        val oldPasswordText = password.value?:""
+        val oldPasswordText = oldPassword.value?:""
         val passwordText = password.value?:""
         val confirmText = confirm.value?:""
 
-        val nextLog = StringBuffer()
+        repositoryError.value =
+            if(repositoryText.isEmpty()) context.getString(R.string.not_filled)
+            else ""
 
-        if(!repositoryText.matches(Regex("[a-z0-9._]{3,50}"))){
-            nextLog.appendLine(context.getString(R.string.field_repository_must_contain))
-        }
 
-        if(passwordText.isEmpty() || confirmText.isEmpty() || oldPasswordText.isEmpty()){
-            nextLog.appendLine(context.getString(R.string.all_fields_must_be_filled))
-        }
+        oldPasswordError.value =
+            if(oldPasswordText.isEmpty()) context.getString(R.string.not_filled)
+            else ""
 
-        if(passwordText != confirmText){
-            nextLog.appendLine(context.getString(R.string.сonfirm_password_is_different))
-        }
 
-        log.value = nextLog.toString()
-        bntEnabled.value = nextLog.isEmpty()
+        val passwordErrors = passwordText.validatePassword()
+        passwordError.value = passwordErrors
+            .joinToString("\n") { context.getString(it) }
+
+        confirmError.value =
+            if(passwordText!=confirmText) context.getString(R.string.сonfirm_password_is_different)
+            else ""
+
+        bntEnabled.value = isNotError()
+        log.value =""
     }
 
     fun editPassword(){
+        log.value = context.getString(R.string.wait)
         uiScope.launch {
             val result = repositoryDao.editPassword(
                 repository = repository.value?:"",
                 password = oldPassword.value?:"",
                 newPassword = password.value?:"")
-            if(result == R.string.ok){
-                onEditedRepository()
-            }
+            edited.value = result == R.string.ok
             log.value = context.getString(result)
         }
     }
@@ -93,5 +110,6 @@ class EditPasswordRepositoryViewModel(val repositoryDef:String) : ViewModel() {
 
     init {
         App.appComponent.inject(this)
+        validate()
     }
 }

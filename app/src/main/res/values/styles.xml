@@ -48,7 +48,14 @@
 
     <style name="Log">
         <item name="singleLine">false</item>
-        <item name="android:textColor">@color/field_text</item>
+        <item name="android:textColor">#f00</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="ErrorLog">
+        <item name="singleLine">false</item>
+        <item name="android:textColor">#f00</item>
         <item name="android:textSize">12dp</item>
         <item name="android:textStyle">italic</item>
     </style>

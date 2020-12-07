@@ -25,9 +25,11 @@ class OpenRepositoryFragment : Fragment() {
         }
         val repository = arguments?.getString("repository") ?:""
         viewModel.repositoryChange(repository)
-        viewModel.onOpened = {
-            var directions = OpenRepositoryFragmentDirections.actionOpenRepositoryFragmentToExplorerFragment()
-            findNavController().navigate(directions)
+        viewModel.opened.observe(viewLifecycleOwner) {
+            if(it == true){
+                val directions = OpenRepositoryFragmentDirections.actionOpenRepositoryFragmentToExplorerFragment()
+                findNavController().navigate(directions)
+            }
         }
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)

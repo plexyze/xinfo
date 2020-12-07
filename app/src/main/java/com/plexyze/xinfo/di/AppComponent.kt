@@ -19,7 +19,6 @@ interface AppComponent {
     fun inject(viewModel: NewRepositoryViewModel)
     fun inject(viewModel: OpenRepositoryViewModel)
     fun inject(viewModel: EditPasswordRepositoryViewModel)
-    fun inject(viewModel: DeleteRepositoryViewModel)
     fun inject(viewModel: ExplorerViewModel)
     fun inject(viewModel: RenameDirectoryViewModel)
     fun inject(viewModel: EditCardViewModel)

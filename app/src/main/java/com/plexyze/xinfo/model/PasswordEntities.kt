@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class FieldType(){
-    NON, LOGIN, PASSWORD, EMAIL
+    NON, LOGIN, PASSWORD, EMAIL, PAYMENT_CARD
 }
 
 @Serializable
@@ -17,6 +17,8 @@ data class FieldEntity(
     var type: FieldType = FieldType.NON,
     var value: String = "",
 )
+
+
 
 @Serializable
 data class Node(

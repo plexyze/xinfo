@@ -78,7 +78,7 @@ class TitleSpinner : ConstraintLayout {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.title_spinner, this)
         titleView = findViewById(R.id.title)
-        spinner = findViewById(R.id.text)
+        spinner = findViewById(R.id.spinner)
         adapter = ArrayAdapter(context, R.layout.spiner_row, R.id.item, adapterOptions)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : OnItemSelectedListener {

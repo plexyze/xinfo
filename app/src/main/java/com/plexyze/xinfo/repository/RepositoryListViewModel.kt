@@ -1,7 +1,9 @@
 package com.plexyze.xinfo.repository
 
 import android.text.format.DateFormat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.plexyze.xinfo.R
 import com.plexyze.xinfo.di.App
 import com.plexyze.xinfo.model.RepositoryDao
 import com.plexyze.xinfo.ui.SimpleListAdapter
@@ -24,29 +26,30 @@ class RepositoryListViewModel: ViewModel() {
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
-    var onChoices: (String)->Unit = {}
-    var onChangeSelected: (Set<String>)->Unit = {}
+    val choices = MutableLiveData<String>().apply { value = "" }
+    val selected = MutableLiveData<Select>().apply { value = Select.Non }
 
-    val selected
-        get()=adapter.selected
 
     override fun onCleared() {
         super.onCleared()
-        onChoices = {}
-        onChangeSelected = {}
         job.cancel()
     }
 
     init {
         App.appComponent.inject(this)
-        adapter.onChoice = {onChoices(it)}
+        adapter.onChoice = {
+            choices.value = it
+        }
         adapter.onChangeSelected = {
-            onChangeSelected(it)
+            selected.value =
+                if(it.isNotEmpty()) Select.Selected(it.first())
+                else Select.Non
         }
         load()
     }
 
     fun load(){
+        choices.value = ""
         uiScope.launch {
             val repositoryList = repositoryDao.getAll()
             val rows = repositoryList.map(){ SimpleListAdapter.Row(
@@ -57,6 +60,13 @@ class RepositoryListViewModel: ViewModel() {
             )}.toMutableList()
             adapter.clearSelected()
             adapter.submitList(rows)
+        }
+    }
+
+    fun deleteRepository(rep:String){
+        uiScope.launch {
+            repositoryDao.delete( repository = rep )
+            load()
         }
     }
 
@@ -73,6 +83,12 @@ class RepositoryListViewModel: ViewModel() {
     private fun Long.toDate():String{
         val df = SimpleDateFormat("dd.MM.yyyy HH:mm")
         return df.format(Date(this))
+    }
+
+
+    sealed class Select{
+        object Non : Select()
+        data class Selected(val name:String):Select()
     }
 
 }

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.plexyze.xinfo.R
 import com.plexyze.xinfo.databinding.FragmentRepositoryListBinding
+import com.plexyze.xinfo.ui.confirmDialog
 import com.plexyze.xinfo.viewmodel.viewModelProvider
 
 
@@ -33,9 +34,11 @@ class RepositoryListFragment : Fragment() {
         viewModel = viewModelProvider(this){
             RepositoryListViewModel()
         }
-        viewModel.onChoices = {
-            val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToOpenRepositoryFragment(it)
-            findNavController().navigate(directions)
+        viewModel.choices.observe(viewLifecycleOwner){
+            if(it.isNotEmpty()){
+                val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToOpenRepositoryFragment(it)
+                findNavController().navigate(directions)
+            }
         }
 
         binding.viewModel = viewModel
@@ -48,66 +51,67 @@ class RepositoryListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.repository_list_menu, menu)
-        updateMenuEnabled(menu)
-        viewModel.onChangeSelected = {
-            updateMenuEnabled(menu)
+        viewModel.selected.observe(viewLifecycleOwner){seleted->
+            when(seleted){
+                is RepositoryListViewModel.Select.Non ->
+                    menu.children.forEach(::updateNonSelected)
+                is RepositoryListViewModel.Select.Selected ->
+                    menu.children.forEach(::updateSelected)
+            }
         }
     }
 
-    private fun updateMenuEnabled(menu: Menu){
-        menu.children.forEach {
-            updateOptionsItemEnabled(it)
+
+    private fun updateSelected(item: MenuItem){
+        when (item.itemId) {
+            R.id.open_repository -> item.isEnabled = true
+            R.id.delete_repository -> item.isEnabled = true
+            R.id.edit_password -> item.isEnabled = true
+            R.id.open_as_text -> item.isEnabled = true
+            else -> item.isEnabled = false
         }
     }
-
-    private fun updateOptionsItemEnabled(item: MenuItem){
-        if (viewModel.selected.isEmpty()){
-            when (item.itemId) {
-                R.id.new_repository -> item.isEnabled = true
-                else -> item.isEnabled = false
-            }
-        }else{
-            when (item.itemId) {
-                R.id.open_repository -> item.isEnabled = true
-                R.id.delete_repository -> item.isEnabled = true
-                R.id.edit_password -> item.isEnabled = true
-                R.id.open_as_text -> item.isEnabled = true
-                else -> item.isEnabled = false
-            }
+    private fun updateNonSelected(item: MenuItem){
+        when (item.itemId) {
+            R.id.new_repository -> item.isEnabled = true
+            else -> item.isEnabled = false
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val selected = viewModel.selected.value
         return when (item.itemId) {
-            R.id.open_repository ->{
-                viewModel.selected.forEach(){
-                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToOpenRepositoryFragment(it)
-                    findNavController().navigate(directions)
-                }
-                true
-            }
             R.id.new_repository -> {
                 val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToNewRepositoryFragment()
                 findNavController().navigate(directions)
                 true
             }
+            R.id.open_repository ->{
+                if(selected is RepositoryListViewModel.Select.Selected){
+                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToOpenRepositoryFragment(selected.name)
+                    findNavController().navigate(directions)
+                }
+                true
+            }
+
             R.id.edit_password -> {
-                viewModel.selected.forEach(){
-                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToEditPasswordRepositoryFragment(it)
+                if(selected is RepositoryListViewModel.Select.Selected){
+                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToEditPasswordRepositoryFragment(selected.name)
                     findNavController().navigate(directions)
                 }
                 true
             }
             R.id.delete_repository -> {
-                viewModel.selected.forEach(){
-                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToDeleteRepositoryFragment(it)
-                    findNavController().navigate(directions)
+                if(selected is RepositoryListViewModel.Select.Selected){
+                    confirmDialog{
+                        viewModel.deleteRepository(selected.name)
+                    }
                 }
                 true
             }
             R.id.open_as_text -> {
-                viewModel.selected.forEach(){
-                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToTextFileFragment(it)
+                if(selected is RepositoryListViewModel.Select.Selected){
+                    val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToTextFileFragment(selected.name)
                     findNavController().navigate(directions)
                 }
                 true

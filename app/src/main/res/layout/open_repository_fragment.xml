@@ -23,7 +23,8 @@
                 android:layout_height="wrap_content"
                 app:eventChange="@{viewModel.repositoryChange}"
                 app:title="@string/repository"
-                app:text="@{viewModel.repository}"/>
+                app:text="@{viewModel.repository}"
+                app:error = "@{viewModel.repositoryError}"/>
 
             <com.plexyze.xinfo.ui.TitleTextInput
                 android:id="@+id/password"
@@ -33,7 +34,8 @@
                 app:enabled="true"
                 app:eventChange="@{viewModel.passwordChange}"
                 app:title="@string/password"
-                app:text="@{viewModel.password}"/>
+                app:text="@{viewModel.password}"
+                app:error = "@{viewModel.passwordError}"/>
 
             <Button
                 android:id="@+id/btn_open_repository"
@@ -41,6 +43,7 @@
                 android:background="@drawable/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="@{viewModel.bntOpenEditable}"
                 android:onClick="@{()->viewModel.openRepository()}"
                 android:text="@string/open_repository" />
 

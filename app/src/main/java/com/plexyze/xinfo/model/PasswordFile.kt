@@ -11,13 +11,13 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.lang.Exception
+const val SALT_XINFO = "*Q3PahT3~ex#?kSyv*?N3ygj*"
 
-
-suspend fun FileManager.writePasswords(fileName:String,passwordsEntity: PasswordsEntity):Boolean{
+suspend fun FileManager.writePasswords(fileName:String,passwordsEntity: PasswordsEntity,salt:String = SALT_XINFO):Boolean{
     var result = false
     GlobalScope.launch(Dispatchers.Default) {
         val jsonString = Json.encodeToString(passwordsEntity)
-        val chapterText = jsonString.mxorEncrypt(passwordsEntity.password)
+        val chapterText = jsonString.mxorEncrypt(salt+passwordsEntity.password)
         GlobalScope.launch(Dispatchers.IO) {
             result = write(fileName,chapterText)
         }.join()
@@ -26,13 +26,13 @@ suspend fun FileManager.writePasswords(fileName:String,passwordsEntity: Password
 }
 
 
-suspend fun FileManager.readPasswords(fileName:String,password:String):PasswordsEntity{
+suspend fun FileManager.readPasswords(fileName:String,password:String,salt:String = SALT_XINFO):PasswordsEntity{
     var out = PasswordsEntity()
     GlobalScope.launch(Dispatchers.IO) {
         if (isExists(fileName)) {
             val chapterText = read(fileName)
             GlobalScope.launch(Dispatchers.Default){
-                val jsonT = chapterText.mxorDecrypt(password).decodeToString()
+                val jsonT = chapterText.mxorDecrypt(salt+password).decodeToString()
                 try{
                     out = Json.decodeFromString(jsonT)
                 }catch (e:Exception){

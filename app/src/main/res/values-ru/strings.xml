@@ -20,7 +20,9 @@
     <string name="open_repository">Открыть хранилище</string>
     <string name="ok">Ok</string>
     <string name="repository_not_found">Хранилище не найден</string>
-    <string name="password_is_not_correct">Пароль не правильный</string>
+    <string name="repository_is_not_correct">Хранилище неправильное</string>
+    <string name="new_password_is_not_correct">Новый пароль неправильный</string>
+    <string name="password_is_not_correct">Пароль неправильный</string>
     <string name="password_not_specified">Пароль не указан</string>
     <string name="edit_password">Изменить пароль</string>
     <string name="delete_repository">Удалить хранилище</string>
@@ -47,10 +49,21 @@
     <string name="field_name_is_not_specified">Поле \"имя\" не задано</string>
     <string name="to_add_fields_press_menu">Чтобы добавить поля, нажмите ︙ и выберите нужный тип поля. Новое поле будет добавлено после редактируемого в данный момент. Пустые поля будут удалены автоматически.</string>
     <string name="delete">Удалить</string>
-    <string name="are_you_sure_about_thes">Are you sure about thes?</string>
+    <string name="are_you_sure_about_that">Are you sure about that? (Вы уверены, что?)</string>
     <string name="cancel">Отмена</string>
     <string name="open_as_text">Открыть как текст</string>
     <string name="text_file">Текстовый файл</string>
     <string name="explorer">Explorer</string>
     <string name="card">Карточка</string>
+    <string name="not_filled">Не заполнено</string>
+    <string name="invalid_file_name_characters">Недопустимые символы \\ /: *?\"\' «≤> |»</string>
+    <string name="max_size_128_chars">Максимальный размер 128 символов</string>
+    <string name="less_than_8_characters">Mенее 8 символов</string>
+    <string name="must_contain_uppercase_characters">Должен содержать прописные символы</string>
+    <string name="must_contain_lowercase_characters">Должен содержать строчные символы</string>
+    <string name="must_contain_numbers">Должен содержать цифры</string>
+    <string name="wait">Ждите</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="payment_card">Платежная карточка</string>
+    <string name="add_payment_card">Добавить платеждую карточку</string>
 </resources>

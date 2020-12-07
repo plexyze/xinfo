@@ -7,9 +7,6 @@
         <variable
             name="viewModel"
             type="com.plexyze.xinfo.card.EditCardViewModel" />
-        <variable
-            name="thisFragment"
-            type="com.plexyze.xinfo.card.EditCardFragment" />
     </data>
 
     <ScrollView
@@ -28,7 +25,7 @@
                 android:layout_height="wrap_content"
                 app:enabled="true"
                 app:title="@string/icon"
-                app:options="@{thisFragment.icons}"
+                app:options="@{viewModel.icons}"
                 app:text="@{viewModel.icon}"
                 app:eventChange="@{viewModel.iconChange}"/>
 
@@ -40,7 +37,8 @@
                 app:enabled="true"
                 app:title="@string/name"
                 app:eventChange="@{viewModel.nameChange}"
-                app:text="@{viewModel.name}"/>
+                app:text="@{viewModel.name}"
+                app:error="@{viewModel.nameError}"/>
 
             <LinearLayout
                 android:id="@+id/fields"
@@ -54,6 +52,7 @@
                 android:background="@drawable/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.saveCard()}"
                 android:enabled="@{viewModel.bntEnabled}"
                 android:text="@string/save" />
 

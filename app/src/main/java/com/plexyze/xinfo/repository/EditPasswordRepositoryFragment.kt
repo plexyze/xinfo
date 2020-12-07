@@ -23,11 +23,13 @@ class EditPasswordRepositoryFragment : Fragment() {
         val repository = arguments?.getString("repository") ?:""
 
         val viewModel = viewModelProvider(this){
-            EditPasswordRepositoryViewModel(repository)
+            EditPasswordRepositoryViewModel()
         }
 
-        viewModel.onEditedRepository = {
-            findNavController().popBackStack()
+        viewModel.repositoryChange(repository)
+
+        viewModel.edited.observe(viewLifecycleOwner){
+            if(it) findNavController().popBackStack()
         }
 
         binding.viewModel = viewModel

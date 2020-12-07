@@ -7,9 +7,6 @@
         <variable
             name="viewModel"
             type="com.plexyze.xinfo.explorer.RenameDirectoryViewModel" />
-        <variable
-            name="thisFragment"
-            type="com.plexyze.xinfo.explorer.RenameDirectoryFragment" />
     </data>
 
     <ScrollView
@@ -28,18 +25,20 @@
                 android:layout_height="wrap_content"
                 app:enabled="true"
                 app:title="@string/icon"
-                app:options="@{thisFragment.icons}"
+                app:options="@{viewModel.icons}"
                 app:text="@{viewModel.icon}"
-                app:eventChange="@{viewModel.iconChange}"/>
+                app:eventChange="@{viewModel.iconChange}" />
 
             <com.plexyze.xinfo.ui.TitleTextInput
                 android:id="@+id/directory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType = "textWebEmailAddress"
                 app:enabled="true"
                 app:title="@string/directory"
                 app:eventChange="@{viewModel.directoryChange}"
-                app:text="@{viewModel.directory}"/>
+                app:text="@{viewModel.directory}"
+                app:error = "@{viewModel.directoryError}"/>
 
 
             <Button

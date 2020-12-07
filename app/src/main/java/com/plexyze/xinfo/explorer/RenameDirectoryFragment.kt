@@ -13,7 +13,6 @@ import com.plexyze.xinfo.viewmodel.viewModelProvider
 
 class RenameDirectoryFragment : Fragment() {
 
-    lateinit var icons:List<String>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -23,17 +22,13 @@ class RenameDirectoryFragment : Fragment() {
         val parentId = arguments?.getString("parentId") ?:""
         val directoryId = arguments?.getString("directoryId") ?:""
 
-        icons = resources.getStringArray(R.array.icon).toList()
-
         val viewModel = viewModelProvider(this){
             RenameDirectoryViewModel(parentId = parentId,directoryId = directoryId)
         }
-        viewModel.onEdited = {
-            findNavController().popBackStack()
+        viewModel.edited.observe(viewLifecycleOwner){
+            if(it) findNavController().popBackStack()
         }
         binding.viewModel = viewModel
-
-        binding.thisFragment = this
 
         binding.setLifecycleOwner(this)
         return binding.root

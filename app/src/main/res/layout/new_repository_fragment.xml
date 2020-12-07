@@ -21,10 +21,12 @@
                 android:id="@+id/repository"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textWebEmailAddress"
                 app:enabled="true"
                 app:eventChange="@{viewModel.repositoryChange}"
                 app:title="@string/repository"
-                app:text="@{viewModel.repository}"/>
+                app:text="@{viewModel.repository}"
+                app:error = "@{viewModel.repositoryError}"/>
 
             <com.plexyze.xinfo.ui.TitleTextInput
                 android:id="@+id/password"
@@ -34,7 +36,8 @@
                 app:enabled="true"
                 app:eventChange="@{viewModel.passwordChange}"
                 app:title="@string/password"
-                app:text="@{viewModel.password}"/>
+                app:text="@{viewModel.password}"
+                app:error = "@{viewModel.passwordError}"/>
 
             <com.plexyze.xinfo.ui.TitleTextInput
                 android:id="@+id/confirm"
@@ -44,7 +47,8 @@
                 app:enabled="true"
                 app:eventChange="@{viewModel.confirmChange}"
                 app:title="@string/сonfirm"
-                app:text="@{viewModel.confirm}"/>
+                app:text="@{viewModel.confirm}"
+                app:error = "@{viewModel.confirmError}"/>
 
             <Button
                 android:id="@+id/btn_new_repository"

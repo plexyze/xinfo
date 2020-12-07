@@ -125,11 +125,11 @@ class ExplorerFragment : Fragment() {
             R.id.delete ->{
                 when(val selected = viewModel.selected.value){
                     is ExplorerViewModel.Select.Directory ->
-                        confirmDialog(R.string.are_you_sure_about_thes){
+                        confirmDialog{
                             viewModel.deleteNode(selected.id)
                         }
                     is ExplorerViewModel.Select.Card ->
-                        confirmDialog(R.string.are_you_sure_about_thes){
+                        confirmDialog{
                             viewModel.deleteNode(selected.id)
                         }
                 }

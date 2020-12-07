@@ -26,6 +26,7 @@ class TitleTextInput : ConstraintLayout {
     private lateinit var titleView: TextView
     private lateinit var editText: EditText
     private lateinit var btnCopy: Button
+    private lateinit var errorView: TextView
 
     private var lastType = InputType.TYPE_CLASS_TEXT
     private var show = false
@@ -74,6 +75,14 @@ class TitleTextInput : ConstraintLayout {
 
     var isCopy:Boolean = false
 
+    var error:String
+        get() = errorView.text.toString()
+        set(v){errorView.text = v
+            errorView.maxHeight =
+                if(v.isEmpty()) 0
+                else 1000
+        }
+
     constructor(context: Context) : super(context) {
         init(null, 0)
     }
@@ -93,9 +102,10 @@ class TitleTextInput : ConstraintLayout {
     private fun initComponent() {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.title_text_input, this)
-        titleView = findViewById(R.id.TitleTextInput_title)
-        editText = findViewById(R.id.TitleTextInput_text)
-        btnCopy = findViewById(R.id.TitleTextInput_btnCopy)
+        titleView = findViewById(R.id.title)
+        editText = findViewById(R.id.text)
+        btnCopy = findViewById(R.id.btnCopy)
+        errorView = findViewById(R.id.error)
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -143,6 +153,8 @@ class TitleTextInput : ConstraintLayout {
         isEnabled = a.getBoolean(R.styleable.TitleField_enabled, false)
 
         isCopy = a.getBoolean(R.styleable.TitleField_copy, false)
+
+        error = a.getString(R.styleable.TitleField_error)?:""
 
         a.recycle()
     }
