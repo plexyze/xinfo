@@ -24,9 +24,9 @@ fun FieldEntity.toIcon()=when(type){
 fun FieldEntity.toIconValue():String{
     val icon = toIcon()
     return when(type){
-        FieldType.PAYMENT_CARD-> """$icon*${value.takeLast(4)}"""
-        FieldType.PASSWORD-> """$icon***"""
-        else->"""$icon$value"""
+        FieldType.PAYMENT_CARD-> """$icon *${value.takeLast(4)}"""
+        FieldType.PASSWORD-> """$icon ***"""
+        else->"""$icon $value"""
     }
 }
 
@@ -99,7 +99,7 @@ class PasswordDao(){
                     comment = if(node.fields.isEmpty()){
                         """📝${node.name}"""
                     }else{
-                        """${node.fields.joinToString(" "){it.toIconValue()}}"""
+                        node.fields.filter {it.type!=FieldType.PASSWORD  }.joinToString(" "){it.toIconValue()}
                     }
                     )) }
 
