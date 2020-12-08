@@ -47,7 +47,7 @@ class CardFragment : Fragment() {
         fields.forEach {field->
             context?.let { context ->
                 val input = TitleTextInput(context)
-                input.title = field.toIcon()+ when(field.type){
+                input.title = field.toIcon()+" "+ when(field.type){
                     FieldType.LOGIN -> getString(R.string.login)
                     FieldType.PASSWORD -> getString(R.string.password)
                     FieldType.EMAIL -> getString(R.string.email)

@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="@{viewModel.bntEnabled}"
                 android:onClick="@{()->viewModel.saveDirectory()}"
-                android:text="@string/edit_password" />
+                android:text="@string/save" />
 
 
 
