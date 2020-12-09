@@ -5,11 +5,28 @@ import kotlinx.coroutines.sync.withLock
 import java.io.File
 import java.util.*
 
+/**
+ * Sandbox file information
+ * @property name file name
+ * @property size file size
+ * @property lastModified date of last change
+ */
 data class FileInfo(var name:String, var size:Long, var lastModified:Long)
 
-class FileManager(val rootDirectory: String) {
-    val mutex = Mutex()
+/**
+ * File access to the directory
+ * @property rootDirectory absolute path
+ */
+class FileManager(private val rootDirectory: String) {
+    /**
+     * @property mutex access synchronization
+     */
+    private val mutex = Mutex()
 
+    /**
+     * Check the path to the directory. If the directory does not exist create it
+     * @return true if directory exists
+     */
     private suspend fun check():Boolean{
         val dir = File(rootDirectory)
         if(dir.isDirectory){
@@ -22,6 +39,10 @@ class FileManager(val rootDirectory: String) {
         }
     }
 
+    /**
+     * Get all files
+     * @return all [FileInfo]
+     */
     suspend fun files():List<FileInfo>{
         mutex.withLock {
             return if(check()){
@@ -38,6 +59,10 @@ class FileManager(val rootDirectory: String) {
         }
     }
 
+    /**
+     * Write file
+     * @return true if ok
+     */
     suspend fun write(fileName:String,byteArray: ByteArray):Boolean{
         mutex.withLock {
             return if(check()){
@@ -56,6 +81,11 @@ class FileManager(val rootDirectory: String) {
             }
         }
     }
+
+    /**
+     * Read file
+     * @return [ByteArray] or empty [ByteArray] if file not exist
+     */
     suspend fun read(fileName:String):ByteArray{
         mutex.withLock {
             return if(check()){
@@ -68,6 +98,10 @@ class FileManager(val rootDirectory: String) {
         }
     }
 
+    /**
+     * Delete file
+     * @return true if ok
+     */
     suspend fun delete(fileName:String):Boolean{
         mutex.withLock {
             return if(check()){
@@ -80,6 +114,10 @@ class FileManager(val rootDirectory: String) {
         }
     }
 
+    /**
+     * Check file
+     * @return true if file is exist
+     */
     suspend fun isExists(fileName:String):Boolean{
         mutex.withLock {
             return if(check()){

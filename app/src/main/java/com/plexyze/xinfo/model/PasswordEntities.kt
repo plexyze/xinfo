@@ -2,16 +2,25 @@ package com.plexyze.xinfo.model
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Field type
+ */
 @Serializable
 enum class FieldType(){
     NON, LOGIN, PASSWORD, EMAIL, PAYMENT_CARD
 }
 
+/**
+ * Node type
+ */
 @Serializable
 enum class NodeType(){
     DIRECTORY, CARD,
 }
 
+/**
+ * Field entity
+ */
 @Serializable
 data class FieldEntity(
     var type: FieldType = FieldType.NON,
@@ -19,7 +28,9 @@ data class FieldEntity(
 )
 
 
-
+/**
+ * Node
+ */
 @Serializable
 data class Node(
     var type: NodeType = NodeType.DIRECTORY,
@@ -31,7 +42,9 @@ data class Node(
     var fields: List<FieldEntity> = listOf()
 )
 
-
+/**
+ * Password repository entity
+ */
 @Serializable
 data class PasswordsEntity(
     var password: String = "",

@@ -3,13 +3,10 @@ package com.plexyze.xinfo.model
 import com.plexyze.xinfo.R
 
 
-fun String.isDirPath():Boolean{
-    if(isEmpty()){
-        return true
-    }
-    return last() == '/'
-}
-
+/**
+ * For file name validation
+ * @return error list, or empty list if file name valid
+ */
 fun String.validateFileName():List<Int>{
     val errors = mutableListOf<Int>()
     if(isEmpty()){
@@ -25,6 +22,10 @@ fun String.validateFileName():List<Int>{
     return errors
 }
 
+/**
+ * For password validation
+ * @return error list, or empty list if file name valid
+ */
 fun String.validatePassword():List<Int>{
     val errors = mutableListOf<Int>()
     if(length<8){
@@ -40,6 +41,5 @@ fun String.validatePassword():List<Int>{
     if(!contains(regex)){
         errors.add(R.string.must_contain_numbers)
     }
-
     return errors
 }

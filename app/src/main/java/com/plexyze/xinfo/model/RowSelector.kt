@@ -1,19 +1,19 @@
 package com.plexyze.xinfo.model
 
 /**
- * Mechanism for highlighting list lines
+ * Logic for highlighting list lines
  * A Listener [onChangeSelected] that can be attached to a RowSelector to get notified whenever
  * is change selection state of rows with [ids].
  */
 class RowSelector( val onChangeSelected:(ids:Set<String>)->Unit ) {
     /**
-     * selected set of ids
+     * @property selected selected set of ids
      */
     var selected = setOf<String>()
         private set
 
     /**
-     * allows to multiselect rows
+     * @property isMultiSelect allows to multi select rows
      */
     var isMultiSelect = false
         set(v){
@@ -22,6 +22,7 @@ class RowSelector( val onChangeSelected:(ids:Set<String>)->Unit ) {
                 selected = setOf<String>()
             }
         }
+
 
     fun isEmpty() = selected.isEmpty()
 

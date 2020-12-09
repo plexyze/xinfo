@@ -8,11 +8,25 @@ import kotlinx.coroutines.sync.withLock
 import java.util.*
 import javax.inject.Inject
 
-data class NodeRef(var type:NodeType,var id:String,var name:String, var icon:String,var comment:String)
+/**
+ * Link to the node.
+ */
+data class NodeRef(var type:NodeType, var id:String,var name:String, var icon:String,var comment:String)
 
+/**
+ * Return value with result
+ */
 data class NodeRefResult(var result:Int,var refs:List<NodeRef> = listOf())
+
+/**
+ * Return value with result
+ */
 data class NodeResult(var result:Int,var node:Node = Node())
 
+/**
+ * Convert field to icon
+ * @return unicode char icon
+ */
 fun FieldEntity.toIcon()=when(type){
     FieldType.LOGIN-> """👤"""
     FieldType.EMAIL-> """📧"""
@@ -20,7 +34,10 @@ fun FieldEntity.toIcon()=when(type){
     FieldType.PASSWORD-> """🔑"""
     else->"☛"
 }
-
+/**
+ * Returns the values of the field with the icon
+ * @return unicode char icon + value
+ */
 fun FieldEntity.toIconValue():String{
     val icon = toIcon()
     return when(type){
@@ -30,23 +47,47 @@ fun FieldEntity.toIconValue():String{
     }
 }
 
+/**
+ *The [PasswordDao] class provides access to the password repository
+ */
 class PasswordDao(){
+
+    /**
+     * @property fileManager provides access to the password repository file
+     */
     @Inject
     lateinit var fileManager: FileManager
-
-    val mutex = Mutex()
 
     init {
         App.appComponent.inject(this)
     }
 
+    /**
+     * @property mutex access synchronization
+     */
+    private val mutex = Mutex()
+
+    /**
+     * @property passwordsEntity is the loaded password structure
+     */
     private var passwordsEntity = PasswordsEntity()
+
+    /**
+     * @property repositoryOpened to determine the repository loaded
+     */
     private var repositoryOpened = ""
 
+    /**
+     * @return true when the repository is loaded and available for modification
+     */
     private fun isOpened():Boolean{
         return !repositoryOpened.isEmpty()
     }
 
+    /**
+     * Decrypts the repository and fill [passwordsEntity]
+     * @return the resource identifier of the string. R.string.ok is ok
+     */
     suspend fun openRepository(repository:String, password:String):Int{
         mutex.withLock {
             if(password.isEmpty()){
@@ -66,6 +107,11 @@ class PasswordDao(){
         }
     }
 
+    /**
+     * Get a list of nodes whose has parent a [id]. If a node with [id] has a parent, then it is
+     * added first, then directories and cards
+     * @return R.string.ok if ok, or string resource id of error
+     */
     suspend fun explore(id:String):NodeRefResult{
         mutex.withLock {
             if(!isOpened()){
@@ -107,6 +153,10 @@ class PasswordDao(){
         }
     }
 
+    /**
+     * Delete node by [nodeId]
+     * @return R.string.ok if ok, or string resource id of error
+     */
     suspend fun deleteNode(nodeId:String):Int{
         mutex.withLock {
             if(!isOpened()){
@@ -128,7 +178,14 @@ class PasswordDao(){
             return R.string.ok
         }
     }
-
+    /**
+     * Create directory
+     * @param parentId id of the node in which you want to create a directory. If id is empty then
+     * directory created in the root
+     * @param name name of the new directory.
+     * @param icon icon of the new directory
+     * @return R.string.ok if ok, or string resource id of error
+     */
     suspend fun createDirectory(parentId:String, name: String, icon: String = """📁"""):NodeResult{
         mutex.withLock {
             if(!isOpened()){
@@ -155,7 +212,13 @@ class PasswordDao(){
             return NodeResult(R.string.ok,newNode)
         }
     }
-
+    /**
+     * Rename directory
+     * @param id id of the directory
+     * @param name new name of the directory.
+     * @param icon new icon of the directory.
+     * @return R.string.ok if ok, or string resource id of error
+     */
     suspend fun renameDirectory(id:String, name: String, icon:String):NodeResult{
         mutex.withLock {
             if(!isOpened()){
@@ -178,7 +241,10 @@ class PasswordDao(){
             return NodeResult(R.string.node_not_found)
         }
     }
-
+    /**
+     * Save card
+     * @return R.string.ok if ok, or string resource id of error
+     */
     suspend fun saveCard(cardNode:Node):NodeResult{
         mutex.withLock {
             if(!isOpened()){
@@ -210,6 +276,9 @@ class PasswordDao(){
         }
     }
 
+    /**
+     * Get node by id
+     */
     suspend fun getNode(id:String):NodeResult{
         mutex.withLock {
             if(!isOpened()){
@@ -221,6 +290,10 @@ class PasswordDao(){
             return NodeResult(R.string.node_not_found)
         }
     }
+
+    /**
+     * Garbage collection. All nodes inaccessible from the root directory will be removed.
+     */
     private fun List<Node>.gc():MutableList<Node>{
         var repeat = true
         var lastList = this
@@ -233,6 +306,9 @@ class PasswordDao(){
         return lastList.toMutableList()
     }
 
+    /**
+     * Generate unique id
+     */
     private fun List<Node>.newId():String{
         val time = Date().time.toString()
         var count = 1L

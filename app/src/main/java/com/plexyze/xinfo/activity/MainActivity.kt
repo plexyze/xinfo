@@ -8,6 +8,9 @@ import androidx.navigation.ui.NavigationUI
 import com.plexyze.xinfo.R
 import com.plexyze.xinfo.databinding.ActivityMainBinding
 
+/**
+ *  Main activity
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,11 +20,9 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this,navController)
     }
 
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.navHostFragment)
         return navController.navigateUp()
     }
-
 
 }
